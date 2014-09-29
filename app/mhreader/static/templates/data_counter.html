@@ -1,0 +1,9 @@
+<h2>Simple single chart drawing</h2>
+
+
+<label id='label-value-count'><%=data.length%> Values</label>
+<table class="table">
+<% _.each(data, function(entry){%>
+<tr><td><%=entry['time']%></td><td><%=entry['values']%></td></tr>
+<%});%>
+</table>

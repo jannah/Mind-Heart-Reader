@@ -43,3 +43,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /nbproject/
+
+# Compbiled python files
+*.pyc

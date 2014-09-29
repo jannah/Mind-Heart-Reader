@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        {% block head %} {% endblock %}
+        <title>{% block title %}{% endblock %} - MindHeart Reader</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet"
+              href="{{ url_for('static',
+            filename='_css/custom_styles.css') }}">
+        <link rel="stylesheet"
+              href="{{ url_for('static',
+            filename='_css/bootstrap.min.css') }}">
+        <script src="{{ url_for('static', filename='_js/jquery-2.1.1.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='_js/d3.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='_js/bootstrap.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='_js/underscore-min.js')}}"></script>
+        {% block scripts %}{% endblock %}
+    </head>
+    <body>
+        <input type="hidden" id="mhreader-templates-url" value="{{url_for('mhreader.static', filename='templates')}}"/>
+        
+        <div id="container">
+            <div id="mhr-header">
+<h1> MindHeart Reader </h1>
+                <nav>
+                </nav>
+            </div>
+            {% block body %}{% endblock %}
+        </div>
+        
+    </body>
+</html>
