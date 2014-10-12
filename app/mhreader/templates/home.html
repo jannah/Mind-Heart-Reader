@@ -3,6 +3,7 @@
 {% block scripts %}
 <script src="{{url_for('mhreader.static', filename='radar-chart.js')}}"></script>
 <script src="{{url_for('mhreader.static', filename='mhreader.js')}}"></script>
+<script src="{{url_for('mhreader.static', filename='mindwave-client.js')}}"></script>
 <script src="{{url_for('mhreader.static', filename='mindwave-charts.js')}}"></script>
 
 <link rel="stylesheet" href="{{url_for('mhreader.static', filename='radar-chart.css')}}"/>
@@ -11,17 +12,23 @@
 {% block body %}
 <input type="hidden" id="mhreader-get-mindwave-data-url" value="{{url_for('mhreader.get_mindwave_data')}}"/>
 <input type="hidden" id="mhreader-start-mindwave-url" value="{{url_for('mhreader.start_mindwave')}}"/>
+<input type="hidden" id="mhreader-start-random-mindwave-url" value="{{url_for('mhreader.start_random_mindwave')}}"/>
 <input type="hidden" id="mhreader-stop-mindwave-url" value="{{url_for('mhreader.stop_mindwave')}}"/>
 <input type="hidden" id="mhreader-get-mindwave-status-url" value="{{url_for('mhreader.get_mindwave_status')}}"/>
 <input type="hidden" id="mhreader-get-mindwave-data-map-url" value="{{url_for('mhreader.get_data_map')}}"/>
+<input type="hidden" id="mhreader-dump-mindwave-data-url" value="{{url_for('mhreader.dump_data')}}"/>
 <h2> Home </h2>
 <div id="control-buttons" class="btn-group btn-lg">
-    <input type="button" class="btn  btn-success" id="btn-start-mindwave" onClick="startMindwave()" value="Start Mindwave"/>
+    <input type="button" class="btn  btn-success" id="btn-start-mindwave" onClick="startMindwave(false)" value="Start Mindwave"/>
+    <input type="button" class="btn  btn-success" id="btn-start-random-mindwave" onClick="startMindwave(true)" value="Start Random Mindwave"/>
     <input type="button" class="btn btn-danger" id="btn-stop-mindwave" onClick="stopMindwave()" value="Stop Mindwave"/>
     <input type="button" class="btn btn-info" id="btn-update-mindwave-data" onClick="loadDataCounter()" value="Update Data"/>
+    <input type="button" class="btn btn-info" id="btn-dump-mindwave-data" onClick="dumpMindwaveData()" value="Dump Data"/>
     <div class="input-group">
         <span class="input-group-addon">Limit</span>
         <input type="text" id='text-data-limit' class="form-control" value="20">
+        <span class="input-group-addon">Filename</span>
+        <input type="text" id='dump-data-filename' class="form-control" value="output.log">
     </div>
 
 </div>

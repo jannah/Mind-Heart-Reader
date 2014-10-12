@@ -1,0 +1,33 @@
+<div  id='add-experiment-form-panel' class="panel panel-default">
+    <div class="panel-heading">Create New User Experiment</div>
+    <div class="panel-body">
+
+        <form id="create-user-experiment-form" role="form" class="form-horizontal">
+            <div class="form-group">
+                <label for="experiment-title">Title</label>
+                <input type="text" class="form-control" id="experiment-title" placeholder="Enter Title" data-column="title">
+            </div>
+
+            <label for="experiment-set">Choose Experiment Set</label>
+            <div class="form-group" id='experiment-set' data-column="gender">
+
+                <% _.each(experiment_sets, function(exp_set){%>
+
+                <label class="radio-inline">
+                    <input type="radio" class='experiment-set-option' name="inlineRadioOptions" value="<%=exp_set.experiment_set.id%>">
+                    <%=exp_set.experiment_set.title%> ( <%=exp_set.experiment_set.stimulus_type%> for <%=exp_set.experiment_set.target_gender%> )
+                </label>
+                <%})%>
+            </div>
+            <div class="form-group">
+                <label for="experiment-remarks">Remarks</label>
+                <textarea class="form-control" rows="3" id="experiment-remarks" placeholder="Enter experiment remarks" data-column="remarks"></textarea>
+
+            </div>
+            <input type="submit" id="create-user-experiment-submit" class="btn btn-success" value="Add" >
+            <input type="button" id="create-user-experiment-cancel" class="btn btn-danger" value="Cancel" onclick="hideCreateUserExperimentForm()">
+
+        </form>
+
+    </div>
+</div>

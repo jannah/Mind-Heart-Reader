@@ -1,0 +1,32 @@
+{% extends "base.html"%}
+{% block title %}Experiment{% endblock %}
+{% block scripts %}
+<script src="{{url_for('mhreader.static', filename='mhreader.js')}}"></script>
+<script src="{{url_for('mhreader.static', filename='experiment.js')}}"></script>
+
+
+<!--<link rel="stylesheet" href="{{url_for('mhreader.static', filename='radar-chart.css')}}"/>-->
+{% endblock %}
+{% block page_title%} User Page {% endblock %}
+{% block body %}
+
+<input type="hidden" id="mhreader-get-user-url" value="{{url_for('mhreader.get_user')}}"/>
+<input type="hidden" id="mhreader-get-experiment-sets-url" value="{{url_for('mhreader.get_experiment_set')}}"/>
+<input type="hidden" id="mhreader-get-user-expriments-url" value="{{url_for('mhreader.get_experiment')}}"/>
+
+<div id="experiment-header">
+    <div class="btn-group">
+        <input type="button" class="btn btn-success" value="Start Experiment" onclick="startExperiment({{ request.args.get('experiment_id') }})"/>
+        <input type="button" class="btn btn-warning" value="Pause" onclick="pauseExperiment({{ request.args.get('experiment_id') }})"/>
+        <input type="button" class="btn btn-danger" value="Stop" onclick="finishExperiment({{ request.args.get('experiment_id') }})"/>
+    </div>
+
+    <div id="experiment-timer-div">
+        <label id="experiment-timer"></label>
+    </div>
+
+</div>
+<div id="experiment-content">
+    
+</div>
+{% endblock %}

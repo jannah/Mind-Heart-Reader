@@ -7,12 +7,13 @@ __date__ ="$Sep 24, 2014 2:17:51 PM$"
 
 from flask import Blueprint
 from flask import redirect, request
-
+#from app import app
 mhrbp = Blueprint('mhreader', __name__
         , template_folder='templates'
         , static_folder="static",)
 from . import mhreader
 from .modules import *
+
 
 
     

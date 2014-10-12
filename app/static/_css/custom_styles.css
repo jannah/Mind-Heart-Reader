@@ -8,3 +8,53 @@ and open the template in the editor.
     Author     : Hassan
 */
 
+/*********************
+* TEMPLATE
+***********************/
+#container{
+    margin: 0 2em;
+}
+
+.popup-form, .error-form{
+    display:none;
+    position: absolute;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    background-color:rgba(0,0,0, .2);
+    z-index:100;
+}
+.popup-form-content{
+    margin: 20%;
+    max-height:60%;
+    overflow-y: auto;
+}
+.error-form-content{
+    margin:5%;
+    max-height:90%;
+    overflow-y: auto;
+}
+
+.popup-form-content .panel-body, .error-form-content .panel-body{
+    padding:3%;
+}
+
+
+.panel-heading input[type='button']
+{
+    float: right;
+    line-height: 1em;
+}
+/*********************
+*   USERS
+*********************/
+
+#users-header{
+    padding: .5em 0em;
+}
+
+
+/**********************
+* 
+*******************/

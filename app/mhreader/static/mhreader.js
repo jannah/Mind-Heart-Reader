@@ -8,36 +8,23 @@
 $(document).on('ready', function() {
     initMhreader();
 });
-var TEMPLATES = {
-    DATA_COUNTER: {filename: 'data_counter.html', target: '#data-counter'}
-};
-var mindwaveData = [];
-var radarChart = RadarChart();
 
-var INTERVAL = 1000;
-var DATA_LIMIT = 30;
-var options = {transitionDuration: INTERVAL, normalizeData: true, circles: false, doFill: false, fadeLines: true, dataMap: dataMap, color: function(i) {
-        return '#9900aa';
-    }};
 function initMhreader()
 {
-    loadTemplates();
-    initMindwaveChart();
-//    loadDataCounter();
-    //updateMindwaveStatus();
-
-
+    //loadTemplates();
 }
 
-function loadTemplates()
+function loadTemplates(templates, templatesURL)
 {
-    templates_url = $('#mhreader-templates-url').val();
-    for (var template in TEMPLATES)
+    console.log('loading templates ' + templates.length)
+    templatesURL = (templatesURL) ? templatesURL : $('#mhreader-templates-url').val();
+    for (var template in templates)
     {
-        TEMPLATES[template]['url'] = templates_url + '/' + TEMPLATES[template].filename;
-        TEMPLATES[template]['html'] = loadTemplate(TEMPLATES[template].url);
-        TEMPLATES[template]['render'] = _.template(TEMPLATES[template]['html']);
+        templates[template]['url'] = templatesURL + '/' + templates[template].filename;
+        templates[template]['html'] = loadTemplate(templates[template].url);
+        templates[template]['render'] = _.template(templates[template]['html']);
     }
+    return templates;
 }
 
 
@@ -82,119 +69,83 @@ function renderTemplate(target, template, args, replaceContent, replaceParent, i
 //    $(target).trigger(BODY_CHANGE_EVENT);
 }
 
-
-/*********************************
- *  Page Actions
- *****************************/
-
-
-function startMindwave()
+function showErrorPanel(errorHTML)
 {
-    $.ajax({
-        url: $('#mhreader-start-mindwave-url').val(),
-        success: function(data) {
-            autoRefreshMindwaveData(INTERVAL);
-//            updateMindwaveStatus();
-        },
-        fail: function(data) {
-            console.log(data);
-        }
-    });
+    $('.error-form-body').html(errorHTML.responseText);
+    $('.error-form').show()
+
 }
 
-function stopMindwave()
+function hideErrorPanel()
 {
-    $.ajax({
-        url: $('#mhreader-stop-mindwave-url').val(),
-        success: function(data) {
-            updateMindwaveStatus();
-        },
-        fail: function(data) {
-            console.log(data);
-        }
-    });
-}
-
-function updateMindwaveStatus()
-{
-    $.ajax({
-        url: $('#mhreader-get-mindwave-status-url').val(),
-        success: function(data) {
-            $('#mhreader-mindwave-status').text(data);
-        },
-        fail: function(data) {
-            $('#mhreader-mindwave-status').text('Failed to retrieve status');
-        }
-    });
-}
-
-
-function initMindwaveChart()
-{
-//    $('#mindwave-chart-container').html('test')
-    loadDataMap();
-    radarChart.draw("#mindwave-chart-container", null, options);
-    loadDataCounter();
+    $('.error-form').hide();
 
 }
-function loadDataCounter()
+/**
+ * 
+ * @param {type} url
+ * @param {type} parameters
+ * @param {type} data
+ * @param {type} method
+ * @param {type} async
+ * @param {type} convert_to_json
+ * @param {type} success_function
+ * @param {type} error_function
+ * @returns {$@call;ajax.responseText|Array|Object}
+ */
+function getResponse(url, parameters, data, method, async, convert_to_json, success_function, error_function)
 {
-    var url = $('#mhreader-get-mindwave-data-url').val();
-    DATA_LIMIT = $('#text-data-limit').val();
-//    console.log(url);
-    var jqxhr = $.ajax(
-            {
-                url: url + '/' + DATA_LIMIT,
-                async: false
-            })
-            .fail(function(data) {
-                console.log('failed');
-                $('#data-counter').html(data.responseText);
-            })
-            .success(function(data)
-            {
-//                console.log('success');
-//                console.log(data);
-                mindwaveData = JSON.parse(data);
-//                console.log(mindwaveData);
-                var chartData = formatRadarChartData(mindwaveData, dataMap);
-                renderTemplate(TEMPLATES.DATA_COUNTER.target, TEMPLATES.DATA_COUNTER, {data: mindwaveData}, true);
-//                if(chartData.length==0) chartData = sampleData;
-                radarChart.update(chartData, options);
-                if (!enableAutoRefresh)
-                    autoRefreshMindwaveData(INTERVAL);
-            });
-    ;
-//    data = jqxhr.responseText
-}
-var dataMap = []
-function loadDataMap()
-{
-
-    var url = $('#mhreader-get-mindwave-data-map-url').val();
-    console.log(url);
+    console.log('getting '+ url);
+    async = (async) ? async : false;
+    if (parameters)
+    {
+        var param_str = '';
+        _.each(parameters, function(key, value)
+        {
+            param_str += key + '=' + value;
+        });
+        if (param_str.length > 0)
+            url += '?' + param_str;
+    }
+    method = (method) ? method : 'GET';
     var jqxhr = $.ajax({
         url: url,
-        async: false
+        data: data,
+        method: method,
+        async: async,
+        success: function(data) {
+            if (success_function)
+                success_function(data);
+        },
+        error: function(data) {
+            showErrorPanel(data);
+            if (error_function)
+                error_function(data);
+        }
     });
+    var result;
+    var text = jqxhr.responseText;
+    /*console.log(text);
+    if(!text)
+    {
+        console.log(jqxhr);
+    }*/
+    try {
 
-    var data = jqxhr.responseText;
-    dataMap = JSON.parse(data);
-    console.log(dataMap);
-    options.dataMap = dataMap;
-
-}
-
-var enableAutoRefresh = false;
-function autoRefreshMindwaveData(interval)
-{
-    enableAutoRefresh = true;
-    var refresh = function() {
-//        console.log('refreshing');
-        loadDataCounter();
-        updateMindwaveStatus();
-        setTimeout(refresh, interval);
-    };
-
-    refresh();
+        
+        
+        result = (convert_to_json) ? JSON.parse(text) : text;
+    }
+    catch (e)
+    {
+        console.log(e);
+        if (e.message === 'Unexpected token u')
+        {
+            text = text.replace("u'", "'");
+            console.log(text);
+            result = JSON.parse(text);
+        }
+    }
+//    console.log(result);
+    return result;
 }

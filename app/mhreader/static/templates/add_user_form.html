@@ -1,0 +1,42 @@
+<div  id='add-user-form-panel' class="panel panel-default">
+    <div class="panel-heading">Add New User</div>
+    <div class="panel-body">
+
+        <form id="add-user-form" role="form" class="form-horizontal">
+            <div class="form-group">
+                <label for="new-user-name">Name</label>
+                <input type="text" class="form-control" id="new-user-name" placeholder="Enter Username" data-column="name">
+            </div>
+            <div class="form-group">
+                <label for="new-user-age">Age</label>
+                <input type="text" class="form-control" id="new-user-age" placeholder="Enter Age" data-column="age">
+            </div>
+
+
+
+            <label for="new-user-name">Gender</label>
+            <div class="form-group" id='new-user-gender' data-column="gender">
+                <label class="radio-inline">
+                    <input type="radio" class='new-user-gender-option' name="inlineRadioOptions" id="new-user-gender-male" value="male" checked>
+                    Male
+                </label>
+
+
+                <label class="radio-inline">
+                    <input type="radio"  class='new-user-gender-option'  name="inlineRadioOptions" id="new-user-gender-gemale" value="female" >
+                    Female
+                </label>
+
+            </div>
+            <div class="form-group">
+                <label for="new-user-description">Other Information</label>
+                <textarea class="form-control" rows="3" id="new-user-description" placeholder="Enter more user information" data-column="description"></textarea>
+
+            </div>
+            <input type="submit" id="add-new-user-submit" class="btn btn-success" value="Add" >
+            <input type="button" id="add-new-user-cancel" class="btn btn-danger" value="Cancel" onclick="hideAddNewUserForm()">
+
+        </form>
+
+    </div>
+</div>

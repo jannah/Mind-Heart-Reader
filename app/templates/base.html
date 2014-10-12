@@ -19,16 +19,39 @@
         {% block scripts %}{% endblock %}
     </head>
     <body>
+
         <input type="hidden" id="mhreader-templates-url" value="{{url_for('mhreader.static', filename='templates')}}"/>
-        
+
         <div id="container">
             <div id="mhr-header">
-<h1> MindHeart Reader </h1>
-                <nav>
+                <h1> MindHeart Reader - {% block page_title %}{% endblock %}</h1>
+                <nav class="navbar navbar-default navbar-top" role="navigation">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="{{url_for('mhreader.show_user_page')}}">User Admin</a></li>
+                                <li class="active"><a href="{{url_for('mhreader.home_page')}}">Mindwave Client</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </nav>
             </div>
             {% block body %}{% endblock %}
+            <div class='popup-form' >
+                <div class="popup-form-content">
+
+                </div>
+            </div>
+            <div class="error-form" onclick="hideErrorPanel()">
+                <div id='error-panel' class='error-form-content panel panel-default' >
+                    <div class='error-form-heading panel-heading'>ERROR</div>
+                    <div class='error-form-body panel-body'>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
-        
+
     </body>
 </html>
