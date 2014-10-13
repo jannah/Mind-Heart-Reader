@@ -52,3 +52,13 @@ exp2 = json.dumps(str(exp))
 exp2 = json.loads(exp2)
 
 print exp2
+
+
+
+exp_sets = ExperimentSet.query.filter_by().first()
+for exp_set in [exp_sets]:
+    print str(exp_set)
+#    files = []
+#    for exp_set_file in exp_set.files:
+#        files+=[exp_set_file.experiment_file]
+#    print files

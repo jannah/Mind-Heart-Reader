@@ -25,6 +25,7 @@ class ExperimentFile(db.Model):
     remarks = Column(String)
 #    experiment_logs = relationship('ExperimentLog', backref=backref('experiment_file'))
     metrics= relationship('ExperimentFileMetric', backref=backref('experiment_file'), cascade= 'delete')
+    experiment_set_file= relationship('ExperimentSetFile', backref=backref('experiment_file'), cascade= 'delete')
     
     def __init__(self, stimulus_type, title, filename, filepath='', \
     file_set_number = 0, remarks =''):
@@ -43,12 +44,15 @@ class ExperimentFile(db.Model):
                     "filename":"%s", 
                     "filepath":"%s", 
                     "file_set_number":%d,
-                    "remarks":"%s"}}'''\
+                    "remarks":"%s",
+                    "metrics":%s}}'''\
                     % (self.__name__,
                     self.id,  
                     self.stimulus_type, 
                     self.title,
                     self.filename,
                     self.filepath,
-                    self.remarks) 
+                    self.file_set_number,
+                    self.remarks,
+                    [metric for metric in self.metrics]) 
     

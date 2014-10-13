@@ -11,6 +11,7 @@ from .. import db
 from sqlalchemy import Column, Integer, String, Sequence, DateTime
 from sqlalchemy.orm import relationship, backref
 from datetime import datetime, date
+import json
 
 class ExperimentSet(db.Model):
     __tablename__ = "mhreader_experiment_sets"
@@ -31,6 +32,13 @@ class ExperimentSet(db.Model):
     
     def __repr__(self):
         return '''{"%s":{"id":%d, "title":"%s", "target_gender":"%s", "stimulus_type":"%s", "remarks":"%s"}}'''\
-                    % (self.__name__, self.id, self.title, self.target_gender, self.stimulus_type, self.remarks) 
+                    % (self.__name__, self.id, self.title, self.target_gender, self.stimulus_type, self.remarks)
+    def to_json(self):
+        j = {}
+        for col in self._sa_class_manager.mapper.mapped_table.columns:
+            j[col.name] = getattr(self, col.name)
+        print j
+        
+        return j
     
     

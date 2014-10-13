@@ -26,10 +26,12 @@ class ExperimentSetFile(db.Model):
         return '''{"%s":
                     {"id":%d, 
                     "experiment_set_id":%d, 
-                    "experiment_file_id":%d
+                    "experiment_file_id":%d,
+                    "experiment_file":%s
                     }}'''\
                     % (self.__name__,
                     self.id, 
                     self.experiment_set_id, 
-                    self.experiment_file_id) 
+                    self.experiment_file_id,
+                    self.experiment_file) 
     

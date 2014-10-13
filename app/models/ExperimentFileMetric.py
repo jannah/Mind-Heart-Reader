@@ -34,14 +34,14 @@ class ExperimentFileMetric(db.Model):
         
         self.experiment_file_id=experiment_file_id
         self.demographic=demographic 
-        self.pleasure_mean=pleasure_mean if not isinstance(pleasure_mean, basestring) else None
-        self.pleasure_std=pleasure_std if not isinstance(pleasure_std, basestring)else None
-        self.arrousal_mean=arrousal_mean if not isinstance(arrousal_mean, basestring)else None
-        self.arrousal_std=arrousal_std if not isinstance(arrousal_std, basestring)else None
-        self.dominance1_mean =dominance1_mean if not isinstance(dominance1_mean, basestring)else None
-        self.dominance1_std =dominance1_std if not isinstance(dominance1_std, basestring)else None
-        self.dominance2_mean=dominance2_mean if not isinstance(dominance2_mean, basestring)else None
-        self.dominance2_std=dominance2_std if not isinstance(dominance2_std, basestring)else None
+        self.pleasure_mean=pleasure_mean if not isinstance(pleasure_mean, basestring) else 0
+        self.pleasure_std=pleasure_std if not isinstance(pleasure_std, basestring)else 0
+        self.arrousal_mean=arrousal_mean if not isinstance(arrousal_mean, basestring)else 0
+        self.arrousal_std=arrousal_std if not isinstance(arrousal_std, basestring)else 0
+        self.dominance1_mean =dominance1_mean if not isinstance(dominance1_mean, basestring)else 0
+        self.dominance1_std =dominance1_std if not isinstance(dominance1_std, basestring)else 0
+        self.dominance2_mean=dominance2_mean if not isinstance(dominance2_mean, basestring)else 0
+        self.dominance2_std=dominance2_std if not isinstance(dominance2_std, basestring)else 0
         
     def __repr__(self):
         return '''{"%s":

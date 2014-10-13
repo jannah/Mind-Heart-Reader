@@ -132,23 +132,35 @@ def get_experiment_set():
             return str(ExperimentSet.query.filter_by(id=exp_set_id).first())
         exp_id = request.args.get('experiment_id', '')
         if exp_id:
-            return str(ExperimentSetFile.query.filter_by(experiment_id=exp_id).all())
+            exp = Experiment.query.filter_by(id=exp_id).first()
+            exp_set = ExperimentSet.query.filter_by(id=exp.experiment_set_id).first()
+#            print json.dumps(exp_set.to_json())
+            
+            return json.dumps(exp_set.to_json())
+        
     result = ExperimentSet.query.all()
 #    print result
     return str(result)
     
 
-@mhrbp.route('/experiments/get_experiment_set_file')
-def get_experiment_set_file():
-    if len(request.args)>0:    
+@mhrbp.route('/experiments/get_experimen_files')
+def get_experiment_files():
+    if len(request.args)>0:
+        exp_set = None
         exp_set_id = request.args.get('experiment_set_id', '')
         if exp_set_id:
-            return str(ExperimentSetFile.query.filter_by(experiment_set_id=exp_set_id).all())
-    return json.dumps(str(ExperimentSetFile.query.all()))
+            exp_set = ExperimentSetFile.query.filter_by(experiment_set_id=exp_set_id).first()
+            print jsonify(exp_set)
+            return jsonify(exp_set)
+#            return str(ExperimentSetFile.query.filter_by(experiment_set_id=exp_set_id).all())
+    return str(ExperimentSetFile.query.all())
     
 
 @mhrbp.route('/experiments/')
 def load_experiment_page(experiment_id=None):
     experiment_id = experiment_id if experiment_id else request.args.get('experiment_id')
-    return render_template('experiment.html')
+    
+    experiment = Experiment.query.filter_by(id=experiment_id).first()
+    user = User.query.filter_by(id=experiment.user_id).first()
+    return render_template('experiment.html', experiment=experiment, user=user)
     
