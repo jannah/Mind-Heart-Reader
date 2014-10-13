@@ -6,7 +6,6 @@ ipython==2.2.0
 itsdangerous==0.24
 Jinja2==2.7.3
 MarkupSafe==0.23
-matplotlib==1.4.0
 numpy==1.9.0
 pip==1.5.6
 progressbar-ipython==2.3.1
@@ -26,4 +25,3 @@ SQLAlchemy==0.9.7
 tornado==4.0.2
 websocket-client==0.18.0
 Werkzeug==0.9.6
-freetype
