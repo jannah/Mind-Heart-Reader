@@ -1,1 +1,1 @@
-web: python mind-heart-reader.py --log-file 
+web: python mind-heart-reader.py ${PORT} --log-file 
