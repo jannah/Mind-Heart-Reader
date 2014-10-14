@@ -21,16 +21,17 @@ class ExperimentLog(db.Model):
     action = Column(Integer)
     timestamp = Column(DateTime)
     action_type = Column(String)
-    experiment_set_file_id = Column(Integer, ForeignKey('mhreader_experiment_files.id'))
+    experiment_file_id = Column(Integer, ForeignKey('mhreader_experiment_files.id'))
     result = Column(String)
 
     
-    def __init__(self, user_id, experiment_id, action, action_type,timestamp=None,  experiment_set_file_id = None, result = None):
+    def __init__(self, user_id, experiment_id, action, action_type=None,timestamp=None,  experiment_file_id = None, result = None):
         self.user_id = user_id
         self.experiment_id = experiment_id
         self.timestamp = timesatmp if timestamp else datetime.now()
+        self.action = action
         self.action_type = action_type
-        self.experiment_set_file_id = experiment_set_file_id
+        self.experiment_file_id = experiment_file_id
         self.result = result
         
     def __repr__(self):
@@ -40,7 +41,7 @@ class ExperimentLog(db.Model):
                     "experiment_id":"%s",
                     "timestamp":"%s",
                     "action_type":"%s",
-                    "experiment_set_file_id":"%s",
+                    "experiment_file_id":"%s",
                     "result":"%s"}}
                 ''' \
                 %(self.name,
@@ -48,6 +49,6 @@ class ExperimentLog(db.Model):
                     self.experiment_id, 
                     self.timestamp, 
                     self.action_type,
-                    self.experiment_set_file_id,
+                    self.experiment_file_id,
                     result)
     

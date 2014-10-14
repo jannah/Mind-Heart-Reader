@@ -14,12 +14,13 @@
 <input type="hidden" id="mhreader-get-experiment-sets-url" value="{{url_for('mhreader.get_experiment_set')}}"/>
 <input type="hidden" id="mhreader-get-user-expriments-url" value="{{url_for('mhreader.get_experiment')}}"/>
 <input type="hidden" id="mhreader-get-experiment-set-files-url" value="{{url_for('mhreader.get_experiment_files')}}"/>
+<input type="hidden" id="mhreader-add-user-response-url" value="{{url_for('mhreader.add_user_response')}}"/>
 <input type="hidden" id="experiment-id" value="{{experiment.id}}"/>
-
+<input type="hidden" id="user-id" value="{{user.id}}"> 
    
 <div id="experiment-header">
-    
-        
+   
+       
     
     <div class="btn-group input-group">
         <label class="input-group-addon">{{experiment.title}} for {{ user.name }}</label>
@@ -34,6 +35,5 @@
 
 </div>
 <div id="experiment-content">
-    
 </div>
 {% endblock %}

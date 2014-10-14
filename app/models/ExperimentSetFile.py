@@ -34,4 +34,9 @@ class ExperimentSetFile(db.Model):
                     self.experiment_set_id, 
                     self.experiment_file_id,
                     self.experiment_file) 
-    
+    def to_json(self):
+        j = {}
+        for col in self._sa_class_manager.mapper.mapped_table.columns:
+            j[col.name] = getattr(self, col.name)
+        j['experiment_file'] = self.experiment_file.to_json()
+        return j

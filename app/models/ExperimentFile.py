@@ -55,4 +55,9 @@ class ExperimentFile(db.Model):
                     self.file_set_number,
                     self.remarks,
                     [metric for metric in self.metrics]) 
-    
+    def to_json(self):
+        j = {}
+        for col in self._sa_class_manager.mapper.mapped_table.columns:
+            j[col.name] = getattr(self, col.name)
+        j['metrics'] = [metric.to_json() for metric in self.metrics]
+        return j

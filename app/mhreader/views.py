@@ -150,8 +150,8 @@ def get_experiment_files():
         exp_set_id = request.args.get('experiment_set_id', '')
         if exp_set_id:
             exp_set = ExperimentSetFile.query.filter_by(experiment_set_id=exp_set_id).first()
-            print jsonify(exp_set)
-            return jsonify(exp_set)
+            
+            return json.dumps(exp_set)
 #            return str(ExperimentSetFile.query.filter_by(experiment_set_id=exp_set_id).all())
     return str(ExperimentSetFile.query.all())
     
@@ -164,3 +164,15 @@ def load_experiment_page(experiment_id=None):
     user = User.query.filter_by(id=experiment.user_id).first()
     return render_template('experiment.html', experiment=experiment, user=user)
     
+@mhrbp.route('/experiments/add_user_response', methods=['POST'])
+def add_user_response(experiment_id=None, experiment_file_id=None, user_id=None, action=None, action_type=None):
+    experiment_id = experiment_id if experiment_id else request.form['experiment_id']
+    experiment_file_id = experiment_file_id if experiment_file_id else request.form['experiment_file_id']
+    user_id = user_id if user_id else request.form['user_id']
+    action = action if action else request.form['action']
+    action_type = action_type if action_type else request.form['action_type']
+    print experiment_id, action
+    exp_log = ExperimentLog(user_id=user_id, experiment_id=experiment_id, action=action, action_type=action_type,  experiment_file_id = experiment_file_id)
+    db.session.add(exp_log)
+    db.session.commit()
+    return 'user log entry created %s at %s'% (exp_log.id, exp_log.timestamp)

@@ -142,7 +142,7 @@ function getResponse(url, parameters, data, method, async, convert_to_json, succ
         if (e.message === 'Unexpected token u')
         {
             text = jqxhr.responseText;
-            console.log(text);
+            console.log(jqxhr);
             text = text.replace("u'", "'");
             console.log(text);
             result = JSON.parse(text);

@@ -37,8 +37,10 @@ class ExperimentSet(db.Model):
         j = {}
         for col in self._sa_class_manager.mapper.mapped_table.columns:
             j[col.name] = getattr(self, col.name)
-        print j
-        
+        j['set_files'] = [f.to_json() for f in self.files]
+#        for f in self.files:
+#            j['set_files']+=[f.to_json()]
+       
         return j
     
     

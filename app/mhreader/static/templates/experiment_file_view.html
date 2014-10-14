@@ -1,10 +1,21 @@
 
-<div id="experiment-image">
-    <img src="<%=experiment.filepath%>" alt="<%=experimnet_file.filename%>"/>
-</div>
-<div id="experiment-responses">
-    
-    <input type="button" id="btn-like" class="btn btn-lg btn-default" value="Like"/>
-    <input type="button" id="btn-neutral" class="btn btn-lg  btn-default" value="Neutral"/>
-    <input type="button" id="btn-dislike" class="btn btn-lg  btn-default" value="Dislike"/>
+<div id='experiment-media-view' class='panel panel-default'>
+   
+    <div id="experiment-media-div">
+        <% if(experiment_file.stimulus_type=='Sounds'){%>
+        <audio controls autoplay loop>
+            <source src="<%=experiment_file.filepath%>" type="audio/wav" >
+
+        </audio>
+        <%} else {%>
+        <img id="experiment-image" src="<%=experiment_file.filepath%>" alt="<%=experiment_file.filename%>"/>
+        <%}%>
+    </div>
+
+    <div id="experiment-responses">
+
+        <input type="button" id="btn-like" class="btn btn-lg btn-default" value="Like" onclick="submitUserResponse('like', <%=experiment_file.id%>)" data-value='Like'/>
+        <input type="button" id="btn-neutral" class="btn btn-lg  btn-default" value="Neutral" onclick="submitUserResponse('neutral',<%=experiment_file.id%>)" data-value='Neutral'/>
+        <input type="button" id="btn-dislike" class="btn btn-lg  btn-default" value="Dislike" onclick="submitUserResponse('dislike',<%=experiment_file.id%>)" data-value='Dislike'/>
+    </div>
 </div>

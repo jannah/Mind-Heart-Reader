@@ -69,4 +69,8 @@ class ExperimentFileMetric(db.Model):
                     self.dominance1_std,
                     self.dominance2_mean,
                     self.dominance2_std) 
-    
+    def to_json(self):
+        j = {}
+        for col in self._sa_class_manager.mapper.mapped_table.columns:
+            j[col.name] = getattr(self, col.name)
+        return j
