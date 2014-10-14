@@ -1,1 +1,1 @@
-web: gunicorn mind-heart-reader:app --log-file 
+web: python mind-heart-reader.py --log-file 
