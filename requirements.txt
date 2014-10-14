@@ -14,7 +14,7 @@ pyreadline==2.0
 pyserial==2.7
 python-dateutil==2.2
 pytz==2014.7
-./lib/pyzmq-2.2.0.1-py2.7-64b-linux.egg
+./lib/pyzmq-2.2.0.1-py2.7-64b-linux.egg==2014.7
 requests==2.4.1
 scipy==0.14.0
 six==1.8.0
