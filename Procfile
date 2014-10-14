@@ -1,0 +1,1 @@
+web: gunicorn mind-heart-reader:app --log-file 
