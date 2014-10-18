@@ -33,9 +33,10 @@ class User(db.Model):
         return '''{"%s":{"id":%d, "name":"%s", "age":"%s", "gender":"%s", "description":"%s"}}''' \
     % (self.__name__, self.id if self.id else 0, self.name, self.age, self.gender, self.description) 
     
-    def to_json(self):
+    def to_json(self, add_experiments=False):
         j = {}
         for col in self._sa_class_manager.mapper.mapped_table.columns:
             j[col.name] = getattr(self, col.name)
-#        j['experiments'] = [metric.to_json() for metric in self.metrics]
+        if add_experiments:
+            j['experiments'] = [experiment.to_json() for experiment in self.experiments]
         return j

@@ -23,44 +23,48 @@ db.session.flush()
 db.session.commit()
 #csv_vile = open('set_list.csv', 'r')
 import csv, os
-preference_list = csv.reader( open(os.path.join(os.path.dirname(__file__),'set_list.csv'), 'r'))
-headers =[]
-file_list = []
-for line in preference_list:
-    if len(headers)==0:
-        headers = line
-    else:
-        extension = 'jpg' if headers[0] == 'IAPS' else 'wav'
-        filename = '%s.%s'%(line[0], extension)
-        print filename
-        male_response = line[1]
-        female_response = line[2]
-        male_order = line[3]
-        female_order = line[4]
-        exp_file = ExperimentFile.query.filter_by(filename=filename).first()
-        print exp_file
-        exp_file.male_response=male_response
-        exp_file.female_response=female_response
-        db.session.add(exp_file)
-        db.session.flush()
-        if headers[0]=='IAPS':
-            if male_response !='':
-                exp_file_set = ExperimentSetFile(experiment_set_id = expset1.id, experiment_file_id = exp_file.id, experiment_file_order = male_order)
-                db.session.add(exp_file_set)
-            if female_response !='':
-                exp_file_set = ExperimentSetFile(experiment_set_id = expset2.id, experiment_file_id = exp_file.id, experiment_file_order = female_order)
-                db.session.add(exp_file_set)
-        if headers[0]=='IADS':
-            if male_response !='':
-                exp_file_set = ExperimentSetFile(experiment_set_id = expset3.id, experiment_file_id = exp_file.id, experiment_file_order = male_order)
-                db.session.add(exp_file_set)
-            if female_response !='':
-                exp_file_set = ExperimentSetFile(experiment_set_id = expset4.id, experiment_file_id = exp_file.id, experiment_file_order = female_order)
-                db.session.add(exp_file_set)
-            
-        db.session.commit()
+def add_set_files(source_file):
+    preference_list = csv.reader( open(os.path.join(os.path.dirname(__file__),source_file), 'r'))
+    headers =[]
+    file_list = []
+    for line in preference_list:
+        if len(headers)==0:
+            headers = line
+        else:
+            extension = 'jpg' if headers[0] == 'IAPS' else 'wav'
+            filename = '%s.%s'%(line[0], extension)
+            print filename
+            male_response = line[1]
+            female_response = line[2]
+            male_order = line[3]
+            female_order = line[4]
+            exp_file = ExperimentFile.query.filter_by(filename=filename).first()
+#            print exp_file
+            exp_file.male_response=male_response
+            exp_file.female_response=female_response
+            db.session.add(exp_file)
+            db.session.flush()
+            if headers[0]=='IAPS':
+                if male_response !='':
+                    exp_file_set = ExperimentSetFile(experiment_set_id = expset1.id, experiment_file_id = exp_file.id, experiment_file_order = male_order)
+                    db.session.add(exp_file_set)
+                if female_response !='':
+                    exp_file_set = ExperimentSetFile(experiment_set_id = expset2.id, experiment_file_id = exp_file.id, experiment_file_order = female_order)
+                    db.session.add(exp_file_set)
+            if headers[0]=='IADS':
+                if male_response !='':
+                    exp_file_set = ExperimentSetFile(experiment_set_id = expset3.id, experiment_file_id = exp_file.id, experiment_file_order = male_order)
+                    db.session.add(exp_file_set)
+                if female_response !='':
+                    exp_file_set = ExperimentSetFile(experiment_set_id = expset4.id, experiment_file_id = exp_file.id, experiment_file_order = female_order)
+                    db.session.add(exp_file_set)
+
+            db.session.commit()
 
 
+
+add_set_files('set_list.csv')
+add_set_files('set_list_IADS.csv')
 
 '''
 def addFilesToSet(exp_set):
