@@ -18,12 +18,13 @@ var TEMPLATES = {
 
 var experiment_id, experiment_set, user_id;
 var active_file_index = -1;
-var TIME_INTERVAL = 1;
+var TIME_INTERVAL = 20;
+var IMAGE_LIMIT = 20;
 function initExperimentPage() {
     TEMPLATES = loadTemplates(TEMPLATES);
     experiment_id = $('#experiment-id').val();
     experiment_set = getExperimentSet(experiment_id);
-    user_id = $('#user-id').val()
+    user_id = $('#user-id').val();
     console.log(experiment_set);
     showIntro();
 }
@@ -34,10 +35,14 @@ function showIntro()
 function hideIntro()
 {
     $('#experiment-intro').hide();
+    startExperiment(experiment_id);
     loadNextImage();
 }
 function startExperiment(experiment_id)
 {
+    var url = $('#mhreader-start-experiment-url').val();
+    var data = {experiment_id: experiment_id};
+    return getResponse(url, null, data, 'GET', false, false);
 
 }
 
@@ -46,9 +51,11 @@ function pauseExperiment(experiment_id)
 
 }
 
-function finishExperiment(experiment_id)
+function stopExperiment(experiment_id)
 {
-
+    var url = $('#mhreader-stop-experiment-url').val();
+    var data = {experiment_id: experiment_id};
+    return getResponse(url, null, data, 'GET', false, false);
 }
 
 
@@ -78,8 +85,10 @@ function submitUserResponse(resp, file_id)
         experiment_file_id: file_id,
         action: resp,
         action_type: 'click'};
-    
-    var success_function = function(data){console.log(data);};
+
+    var success_function = function(data) {
+        console.log(data);
+    };
     getResponse(url, null, data, 'POST', false, false, success_function);
     loadNextImage();
 }
@@ -88,13 +97,22 @@ function loadNextImage()
 {
 
     active_file_index++;
-    if (active_file_index < experiment_set.set_files.length)
+    if (active_file_index < experiment_set.set_files.length && active_file_index < IMAGE_LIMIT)
     {
         console.log(active_file_index);
         var expFile = experiment_set.set_files[active_file_index];
         console.log(expFile);
-        renderTemplate(TEMPLATES.EXPERIMENT_FILE_VIEW.target, TEMPLATES.EXPERIMENT_FILE_VIEW, {experiment_file: expFile.experiment_file, file_index: active_file_index}, true);
+        var limit = (experiment_set.set_files.length < IMAGE_LIMIT) ? experiment_set.set_files.length : IMAGE_LIMIT;
+        renderTemplate(TEMPLATES.EXPERIMENT_FILE_VIEW.target, TEMPLATES.EXPERIMENT_FILE_VIEW,
+                {experiment_file: expFile.experiment_file, file_index: active_file_index, file_count: limit},
+        true);
         startButtonTimer();
+    }
+    else
+    {
+        $(TEMPLATES.EXPERIMENT_FILE_VIEW.targets).hide();
+        stopExperiment(experiment_id);
+
     }
 }
 

@@ -46,10 +46,11 @@ def show_user_page():
 def get_users():
     user_id = request.args.get('user_id', '')
     users = User.query.all()
-    users_d =[]
+    '''users_d =[]
     for user in users:
         users_d.append(combine_sql_objects(user, user.experiments))
-    return json.dumps(users_d)
+    return json.dumps(users_d)'''
+    return json.dumps([user.to_json(add_experiments=True) for user in users])
 
 @mhrbp.route('/users/get_user')
 def get_user():
@@ -163,6 +164,28 @@ def load_experiment_page(experiment_id=None):
     experiment = Experiment.query.filter_by(id=experiment_id).first()
     user = User.query.filter_by(id=experiment.user_id).first()
     return render_template('experiment.html', experiment=experiment, user=user)
+
+@mhrbp.route('/experiments/start_experiment')
+def start_experiment(experiment_id=None):
+    if not experiment_id:
+        experiment_id = request.args.get('experiment_id', '')
+    experiment = Experiment.query.filter_by(id = experiment_id).first()
+    log = ExperimentLog.query.filter_by(experiment_id = experiment_id).delete()
+    db.session.flush()
+    experiment.start()  
+    db.session.add(experiment)
+    db.session.commit()
+    return 'started at %s' %str( experiment.start_time)
+
+@mhrbp.route('/experiments/stop_experiment')
+def stop_experiment(experiment_id=None):
+    if not experiment_id:
+        experiment_id = request.args.get('experiment_id', '')
+    experiment = Experiment.query.filter_by(id = experiment_id).first()
+    experiment.stop()
+    db.session.add(experiment)
+    db.session.commit()
+    return 'finished at %s' %str( experiment.end_time)
     
 @mhrbp.route('/experiments/add_user_response', methods=['POST'])
 def add_user_response(experiment_id=None, experiment_file_id=None, user_id=None, action=None, action_type=None):
@@ -212,3 +235,5 @@ def get_data_dump(experiment_id = None):
     response.headers["Content-Disposition"] = "attachment; filename=data_dump.json"
     return response
 #    return json.dumps(results)
+
+

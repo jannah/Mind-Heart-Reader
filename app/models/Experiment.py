@@ -44,7 +44,7 @@ class Experiment(db.Model):
     def __repr__(self):
         
         rep = {self.__name__:{'id':self.id, 'title':self.title,'user_id':self.user_id,'experiment_set_id':self.experiment_set_id,
-                                'start_time': self.start_time,'end_time': self.end_time,'completed':self.completed,'remarks':self.remarks}}
+                                'start_time': str(self.start_time),'end_time': str(self.end_time),'completed':self.completed,'remarks':self.remarks}}
         return json.dumps(rep)
     def to_json(self):
         j = {}

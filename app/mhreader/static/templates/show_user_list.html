@@ -7,23 +7,23 @@
 
             <tr><td>ID</td><td>Username</td><td>Age</td><td>Gender</td><td>Information</td><td>Experiments</td><td></td></tr>
             <% _.each(users, function(user){%>
-            <tr><td><%=user.user.id%></td>
-                <td><%=user.user.name%></td>
-                <td><%=user.user.age%></td>
-                <td><%=user.user.gender%></td>
-                <td><%=user.user.description%></td>
+            <tr><td><%=user.id%></td>
+                <td><%=user.name%></td>
+                <td><%=user.age%></td>
+                <td><%=user.gender%></td>
+                <td><%=user.description%></td>
                 <td>
 
-                    <% _.each(user.user.experiments, function(experiment) {%>
-                    <%my_exp = _.filter(experiments, function(exp){ return exp.experiment.id == experiment.experiment.id; })[0];
+                    <% _.each(user.experiments, function(experiment) {%>
+                    <%my_exp = _.filter(experiments, function(exp){ return exp.experiment.id == experiment.id; })[0];
                     %>
-                    <input type="button" class="btn experiment-btn" value="<%=experiment.experiment.title%>" 
-                           data-experiment-id="<%=experiment.experiment.id%>" onclick="loadUserExperimentPage(<%=experiment.experiment.id%>)"/> 
+                    <input type="button" class="btn experiment-btn" value="<%=experiment.title%>" 
+                           data-experiment-id="<%=experiment.id%>" onclick="loadUserExperimentPage(<%=experiment.id%>)"/> 
                    <%})%>
                 </td>
                 <td>
-                    <input type="button" class="btn btn-sm btn-danger" value="Dalete" onclick="deleteUser( <%= user.user.id %> )">
-                    <input type="button" class="btn btn-sm btn-success" value="Create Experiment" onclick="showCreateUserExperimentForm( <%= user.user.id %> )">
+                    <input type="button" class="btn btn-sm btn-danger" value="Dalete" onclick="deleteUser( <%= user.id %> )">
+                    <input type="button" class="btn btn-sm btn-success" value="Create Experiment" onclick="showCreateUserExperimentForm( <%= user.id %> )">
                 </td>
             </tr>
             <%})%>
