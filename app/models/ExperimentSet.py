@@ -21,7 +21,7 @@ class ExperimentSet(db.Model):
     target_gender = Column(String)
     stimulus_type = Column(String)
     remarks = Column(String)
-    files = relationship('ExperimentSetFile', backref=backref('experiment_set'))
+    files = relationship('ExperimentSetFile', backref=backref('experiment_set'), order_by='ExperimentSetFile.experiment_file_order')
     experiments = relationship('Experiment', backref=backref('experiment_set'))
     
     def __init__(self, title, target_gender, stimulus_type, remarks =None):

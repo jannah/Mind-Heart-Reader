@@ -22,18 +22,23 @@ class ExperimentFile(db.Model):
     filename = Column(String)
     filepath = Column(String)
     file_set_number = Column(Integer)
+    male_response= Column(String)
+    female_response= Column(String)
     remarks = Column(String)
 #    experiment_logs = relationship('ExperimentLog', backref=backref('experiment_file'))
     metrics= relationship('ExperimentFileMetric', backref=backref('experiment_file'), cascade= 'delete')
     experiment_set_file= relationship('ExperimentSetFile', backref=backref('experiment_file'), cascade= 'delete')
+    experiment_logs= relationship('ExperimentLog', backref=backref('experiment_file'), cascade= 'delete')
     
     def __init__(self, stimulus_type, title, filename, filepath='', \
-    file_set_number = 0, remarks =''):
+    file_set_number = 0,male_response='', female_response='', remarks =''):
         self.stimulus_type=stimulus_type
         self.title=title
         self.filename = filename
         self.filepath = filepath
         self.file_set_number = file_set_number
+        self.male_response = male_response
+        self.female_response = female_response
         self.remarks=remarks
         
     def __repr__(self):
@@ -44,6 +49,8 @@ class ExperimentFile(db.Model):
                     "filename":"%s", 
                     "filepath":"%s", 
                     "file_set_number":%d,
+                    "male_response":"%s",
+                    "female_response":"%s",
                     "remarks":"%s",
                     "metrics":%s}}'''\
                     % (self.__name__,
@@ -53,11 +60,14 @@ class ExperimentFile(db.Model):
                     self.filename,
                     self.filepath,
                     self.file_set_number,
+                    self.male_response,
+                    self.female_response,
                     self.remarks,
                     [metric for metric in self.metrics]) 
-    def to_json(self):
+    def to_json(self, target_gender=None):
         j = {}
         for col in self._sa_class_manager.mapper.mapped_table.columns:
             j[col.name] = getattr(self, col.name)
-        j['metrics'] = [metric.to_json() for metric in self.metrics]
+        j['metrics'] = [metric.to_json() for metric in self.metrics\
+            if metric.demographic == target_gender or target_gender is None]
         return j

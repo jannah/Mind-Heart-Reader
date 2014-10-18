@@ -32,4 +32,10 @@ class User(db.Model):
     def __repr__(self):
         return '''{"%s":{"id":%d, "name":"%s", "age":"%s", "gender":"%s", "description":"%s"}}''' \
     % (self.__name__, self.id if self.id else 0, self.name, self.age, self.gender, self.description) 
-                            
+    
+    def to_json(self):
+        j = {}
+        for col in self._sa_class_manager.mapper.mapped_table.columns:
+            j[col.name] = getattr(self, col.name)
+#        j['experiments'] = [metric.to_json() for metric in self.metrics]
+        return j

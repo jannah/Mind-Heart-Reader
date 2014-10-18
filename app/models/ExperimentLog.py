@@ -51,4 +51,11 @@ class ExperimentLog(db.Model):
                     self.action_type,
                     self.experiment_file_id,
                     result)
+    def to_json(self):
+        j = {}
+        for col in self._sa_class_manager.mapper.mapped_table.columns:
+            j[col.name] = getattr(self, col.name)
+        j['timestamp'] = str(self.timestamp)
+        j['file'] = self.experiment_file.to_json(target_gender=self.experiment.experiment_set.target_gender)
+        return j
     

@@ -18,22 +18,30 @@ class ExperimentSetFile(db.Model):
     id = Column(Integer, primary_key=True)
     experiment_set_id = Column(Integer, ForeignKey('mhreader_experiment_sets.id'))
     experiment_file_id = Column(Integer, ForeignKey('mhreader_experiment_files.id'))
-    
-    def __init__(self, experiment_set_id, experiment_file_id):
+    experiment_file_order = Column(Integer)
+    def __init__(self, experiment_set_id, experiment_file_id, experiment_file_order = None):
         self.experiment_set_id=experiment_set_id
         self.experiment_file_id = experiment_file_id
+        if experiment_file_order:
+            self.experiment_file_order = experiment_file_order
+        else:
+            ESF = ExperimentSetFile.query.filter_by(experiment_set_id=self.experiment_set_id).all()
+            self.order = len(ESF) + 1 
+        
     def __repr__(self):
         return '''{"%s":
                     {"id":%d, 
                     "experiment_set_id":%d, 
                     "experiment_file_id":%d,
-                    "experiment_file":%s
+                    "experiment_file":"%s",
+                    "experiment_file_order":%d
                     }}'''\
                     % (self.__name__,
                     self.id, 
                     self.experiment_set_id, 
                     self.experiment_file_id,
-                    self.experiment_file) 
+                    self.experiment_file,
+                    self.experiment_file_order) 
     def to_json(self):
         j = {}
         for col in self._sa_class_manager.mapper.mapped_table.columns:

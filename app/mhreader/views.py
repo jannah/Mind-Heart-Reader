@@ -6,7 +6,7 @@ __author__="Hassan"
 __date__ ="$Oct 2, 2014 1:54:50 AM$"
 from app.models import *
 from app.mhreader import mhrbp
-from flask import request, render_template, jsonify
+from flask import request, render_template, jsonify, make_response
 from app import db
 import json
 
@@ -176,3 +176,39 @@ def add_user_response(experiment_id=None, experiment_file_id=None, user_id=None,
     db.session.add(exp_log)
     db.session.commit()
     return 'user log entry created %s at %s'% (exp_log.id, exp_log.timestamp)
+
+def parse_user_data_dump(user_id = None, user=None):
+    if not user:
+        user = User.query.filter_by(id = user_id).first()
+
+
+def get_experiment_data_dump(experiment_id=None, experiment=None):
+    print experiment
+    
+    if experiment is None:
+        experiment = Experiment.query.filter_by(id=experiment_id).first()
+    return experiment.to_json()
+    
+    
+    
+    
+@mhrbp.route('/experiments/get_data_dump')
+def get_data_dump(experiment_id = None):
+
+    
+    if experiment_id:
+        return parse_experiment_data_dump(experiment_id=experiment_id)
+    else:
+        results = []
+        experiments = Experiment.query.all()
+        for experiment in experiments:
+            print experiment.id
+            
+            results.append(get_experiment_data_dump(experiment=experiment))
+            
+    response = make_response(json.dumps(results))
+    # This is the key: Set the right header for the response
+    # to be downloaded, instead of just printed on the browser
+    response.headers["Content-Disposition"] = "attachment; filename=data_dump.json"
+    return response
+#    return json.dumps(results)

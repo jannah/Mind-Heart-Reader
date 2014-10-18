@@ -10,8 +10,9 @@ from app import app
 
 if __name__ == '__main__':
 	import sys
-	port = 5000
+	port = app.config['PORT']
+        address = app.config['IP_ADDRESS']
 	if len(sys.argv)>1:
 		port = int(sys.argv[1])
-	app.run('0.0.0.0', port = port, debug=True)
+	app.run(address, port = port, debug=True)
 

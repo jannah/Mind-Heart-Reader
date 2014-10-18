@@ -20,7 +20,11 @@ else:
 
 for key in DB_CONFIG:
     app.config[key] = DB_CONFIG[key]
-print app.config
+#app.config['APPLICATION_ROOT'] = config.APPLICATION_ROOT
+#app.config['SERVER_NAME'] = config.SERVER_NAME
+app.config['IP_ADDRESS'] = config.IP_ADDRESS
+app.config['PORT'] = config.PORT
+print app.config['APPLICATION_ROOT'], app.config['PORT']
 
 from flask.ext.sqlalchemy import SQLAlchemy
 db = SQLAlchemy(app)
@@ -29,7 +33,8 @@ from models import *
 
 
 from mhreader import mhreader, views
-app.register_blueprint(mhreader.mhrbp, url_prefix='/mhreader')
+print app.config['APPLICATION_ROOT'], app.config['SERVER_NAME']
+app.register_blueprint(mhreader.mhrbp, url_prefix='%s%s'%(config.APPLICATION_ROOT, '/mhreader'))
 
 import logging
 log = logging.getLogger('werkzeug')
