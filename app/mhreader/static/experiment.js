@@ -110,7 +110,7 @@ function loadNextImage()
     }
     else
     {
-        $(TEMPLATES.EXPERIMENT_FILE_VIEW.targets).hide();
+        $('#experiment-media-view').hide();
         stopExperiment(experiment_id);
 
     }
