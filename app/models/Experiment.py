@@ -11,6 +11,8 @@ from .. import db
 from sqlalchemy import Column, Integer, String, Sequence, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship, backref
 from datetime import datetime, date
+import pytz
+from dateutil.tz import tzlocal
 import json
 
 class Experiment(db.Model):
@@ -21,15 +23,18 @@ class Experiment(db.Model):
     user_id = Column(Integer, ForeignKey('mhreader_users.id'))
     experiment_set_id  = Column(Integer, ForeignKey('mhreader_experiment_sets.id'))
     remarks = Column(String)
-    start_time = Column(DateTime)
-    end_time = Column(DateTime)
+    start_time = Column(DateTime(timezone = True))
+    end_time = Column(DateTime(timezone = True))
     completed = Column(Boolean)
     logs = relationship('ExperimentLog', backref=backref('experiment'), order_by='ExperimentLog.timestamp')
     
     def start(self):
         self.start_time = datetime.now()
+        self.start_time = self.start_time.replace(microsecond=0)
+
     def stop(self):
         self.end_time = datetime.now()
+        self.end_time = self.end_time.replace(microsecond=0)
         self.completed = True
     def update_remarks(self, remarks ):
         self.remarks = remarks   
@@ -48,12 +53,17 @@ class Experiment(db.Model):
         return json.dumps(rep)
     def to_json(self):
         j = {}
+#        print self
+
+        
         for col in self._sa_class_manager.mapper.mapped_table.columns:
             j[col.name] = getattr(self, col.name)
         j['start_time'] = str(self.start_time)
         j['end_time'] = str(self.end_time)
         j['user'] = self.user.to_json()
-        j['logs'] = [log.to_json() for log in self.logs]
+        if self.logs:
+            j['logs'] = [log.to_json() for log in self.logs]
+        print j
         return j
 #        return '''{"%s":{"id":%d, "title":"%s", "user_id":%d, "experiment_set_id":%d, "start_time":"%s", "end_time":"%s", "remarks":"%s"}}'''\
 #                    % (self.__name__, self.id, self.title, self.user_id, self.experiment_set_id, self.start_time, self.end_time, self.remarks)

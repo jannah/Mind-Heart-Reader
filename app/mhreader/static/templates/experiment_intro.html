@@ -2,8 +2,18 @@
     <div class="panel panel-default">
         <div class="panel-heading">Experiment Intro</div>
         <div class="panel-body">
-            Some intro text
+            <p>Thank you for taking the time to help us with our experiment. During the experiment, you will be exposed to a series of images or sounds.
+                For each file, you will be asked to submit you response on how you feel about the file. There are three responses:
+            </p>
+            <ul>
+                <li>Like</li>
+                <li>Neutral</li>
+                <li>Dislike</li>
+            </ul>
+            <p>The response buttons will be enabled after 15 seconds of showing the file. This will allow us to capture EEG brainwave data about your feelings towards the image/sound.</p>
+            <p>Please relax and avoid any unnecessary movements while we calibrate the EEG device.</p>
+                
         </div>
     </div>
-    <input type="button" class="btn btn-default" id="experiment-intro-button" onclick="hideIntro()" value="Hide Intro"/>
+    <input type="button" class="btn btn-success" id="experiment-intro-button" onclick="startExperiment()" value="Start"/>
 </div>

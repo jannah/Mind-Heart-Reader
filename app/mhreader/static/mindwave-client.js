@@ -10,7 +10,7 @@ $(document).on('ready', function() {
 var mindwaveData = [];
 var radarChart = RadarChart();
 
-var INTERVAL = 1000;
+var INTERVAL = 100000;
 var DATA_LIMIT = 30;
 var options = {transitionDuration: INTERVAL, normalizeData: true, circles: false, doFill: false, fadeLines: true, dataMap: dataMap, color: function(i) {
         return '#9900aa';
@@ -25,7 +25,7 @@ var TEMPLATES = {
 function initMindwaveClient()
 {
     TEMPLATES = loadTemplates(TEMPLATES);
-    initMindwaveChart();
+//    initMindwaveChart();
 }
 
 function startMindwave(random)
@@ -152,5 +152,5 @@ function autoRefreshMindwaveData(interval)
         setTimeout(refresh, interval);
     };
 
-    refresh();
+//    refresh();
 }

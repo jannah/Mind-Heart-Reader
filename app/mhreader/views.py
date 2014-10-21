@@ -6,9 +6,15 @@ __author__="Hassan"
 __date__ ="$Oct 2, 2014 1:54:50 AM$"
 from app.models import *
 from app.mhreader import mhrbp
-from flask import request, render_template, jsonify, make_response
+from flask import request, render_template, jsonify, make_response, url_for
 from app import db
 import json
+import csv
+from time import mktime, strptime, strftime
+from datetime import datetime, timedelta
+
+
+MINDWAVE_HEADER_MAP = {"Attention": "attention",	"Meditation": "meditation",	"Familiarity": "familiarity",	"MentalEffort": "mental_effort",	"Appreciation": "appreciation",	"SignalQuality": "signal_quality",	"EventTagging": "event_tagger",	"Delta": "delta",	"Theta": "theta",	"Alpha": "alpha",	"Beta": "beta",	"Gamma": "gamma"}
 
 def flat_sql_dict(sql_object):
     title= sql_object.__name__
@@ -112,7 +118,8 @@ def get_experiment():
         exp_id = request.args.get('experiment_id', '')
         if exp_id:
             experiment = Experiment.query.filter_by(id=exp_id).first()
-            return str(combine_sql_objects(experiment, experiment.experiment_set))
+#            return str(combine_sql_objects(experiment, experiment.experiment_set))
+            return json.dumps(experiment.to_json())
     else:
         exps = db.session.query(Experiment).all()
         return str(exps)
@@ -169,7 +176,11 @@ def load_experiment_page(experiment_id=None):
 def start_experiment(experiment_id=None):
     if not experiment_id:
         experiment_id = request.args.get('experiment_id', '')
+    print 'experiment_id=%s'%experiment_id
+    
     experiment = Experiment.query.filter_by(id = experiment_id).first()
+    print experiment
+    
     log = ExperimentLog.query.filter_by(experiment_id = experiment_id).delete()
     db.session.flush()
     experiment.start()  
@@ -195,7 +206,10 @@ def add_user_response(experiment_id=None, experiment_file_id=None, user_id=None,
     action = action if action else request.form['action']
     action_type = action_type if action_type else request.form['action_type']
     print experiment_id, action
+    
     exp_log = ExperimentLog(user_id=user_id, experiment_id=experiment_id, action=action, action_type=action_type,  experiment_file_id = experiment_file_id)
+    print exp_log
+    
     db.session.add(exp_log)
     db.session.commit()
     return 'user log entry created %s at %s'% (exp_log.id, exp_log.timestamp)
@@ -206,7 +220,7 @@ def parse_user_data_dump(user_id = None, user=None):
 
 
 def get_experiment_data_dump(experiment_id=None, experiment=None):
-    print experiment
+#    print experiment
     
     if experiment is None:
         experiment = Experiment.query.filter_by(id=experiment_id).first()
@@ -236,4 +250,88 @@ def get_data_dump(experiment_id = None):
     return response
 #    return json.dumps(results)
 
+def get_timestamp_from_filename(filename):
+    tpart = filename[-24:]
+    tpart = tpart[:20]
+    ts =strptime(tpart, "%d-%b-%Y-%H-%M-%S")  
+    return datetime.fromtimestamp(mktime(ts))
 
+def format_date_as_string(ts):
+#    return strftime('%Y-%m-%d %H:%M:%S', ts)
+    return str(ts)
+
+
+@mhrbp.route('/experiments/upload_mindwave_data', methods=['POST'])
+def upload_mindwave_data(experiment_id=None, mindwave_file=None):
+    if not experiment_id:
+        experiment_id= request.form['experiment_id']
+
+    if not mindwave_file:
+        mindwave_file = request.files['mindwave_file']
+        print mindwave_file
+        print mindwave_file.filename
+        
+
+    mindwave_data =  csv.reader(mindwave_file)
+    last_timesatmp = get_timestamp_from_filename(mindwave_file.filename)
+    headers = []
+    experiment = Experiment.query.filter_by(id=experiment_id).first()
+    MindwaveLog.query.filter_by(experiment_id=experiment_id).delete()
+    rows = [row for row in mindwave_data]
+    for i in range(len(rows)):
+        row = rows[i]
+        if i==0:
+            headers =dict([(MINDWAVE_HEADER_MAP[row[i]], i) for i in range(len(row)) ])
+            print headers
+        else:
+            row_ts = last_timesatmp+timedelta(seconds=-(len(rows)-i-1))
+            timestamp = row_ts
+            attention=row[headers['attention']]	
+            meditation=row[headers['meditation']]
+            familiarity=row[headers['familiarity']]	
+            mental_effort=row[headers['mental_effort']]
+            appreciation=row[headers['appreciation']]
+            signal_quality = row[headers['signal_quality']]
+            event_tagger = row[headers['event_tagger']]
+            delta=row[headers['delta']]
+            theta=row[headers['theta']]
+            alpha=row[headers['alpha']]
+            beta=row[headers['beta']]
+            gamma=row[headers['gamma']]
+            response = None
+            
+            db.session.flush()
+            
+#            response = row[headers['response']]
+            mlog = MindwaveLog(experiment_id=experiment_id, \
+                    timestamp = timestamp,attention=attention,	\
+                    meditation=meditation,familiarity=familiarity,\
+                    mental_effort=mental_effort,appreciation=appreciation,\
+                    signal_quality = signal_quality,event_tagger = event_tagger,\
+                    delta=delta,theta=theta,	\
+                    alpha=alpha,beta=beta,\
+                    gamma=gamma,response = response)
+            db.session.add(mlog)
+            db.session.flush()
+    
+#    mlogs = MindwaveLog.query.filter_by(experiment_id=experiment_id).all()
+#    for i in range(len(mlogs)-1, 0, -1):
+    exp_logs = ExperimentLog.query.filter_by(experiment_id=experiment_id).all()
+    print experiment
+    previous_timestamp = experiment.start_time + timedelta(seconds=-1)
+    for exp_log in exp_logs:
+        mlogs = db.session.query(MindwaveLog).filter(MindwaveLog.experiment_id == experiment_id, \
+                    MindwaveLog.timestamp<=exp_log.timestamp, \
+                    MindwaveLog.timestamp>previous_timestamp).all()
+        print len(mlogs)
+        
+        for mlog in mlogs:
+            mlog.response = exp_log.action
+            db.session.add(mlog)
+        db.session.flush()
+        previous_timestamp = exp_log.timestamp           
+    db.session.commit()
+
+        
+        
+    return 'uploaded'

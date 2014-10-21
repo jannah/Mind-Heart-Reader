@@ -12,21 +12,28 @@ $(document).on('ready', function() {
 
 var TEMPLATES = {
     EXPERIMENT_FILE_VIEW: {filename: 'experiment_file_view.html', target: '#experiment-content'},
-    EXPERIMENT_INTRO: {filename: 'experiment_intro.html', target: '#experiment-content'}
+    EXPERIMENT_INTRO: {filename: 'experiment_intro.html', target: '#experiment-content'},
+    EXPERIMENT_UPLOAD: {filename: 'experiment_upload_data.html', target: '#experiment-content'}
 
 };
 
-var experiment_id, experiment_set, user_id;
+var experiment, experiment_id, experiment_set, user_id;
 var active_file_index = -1;
-var TIME_INTERVAL = 20;
-var IMAGE_LIMIT = 20;
+var TIME_INTERVAL = 15;
+var IMAGE_LIMIT = 25;
+var mindwave_file;
 function initExperimentPage() {
     TEMPLATES = loadTemplates(TEMPLATES);
     experiment_id = $('#experiment-id').val();
+    experiment = getExperiment(experiment_id);
     experiment_set = getExperimentSet(experiment_id);
     user_id = $('#user-id').val();
     console.log(experiment_set);
-    showIntro();
+    console.log(experiment);
+    if (experiment.completed)
+        showUploadForm()
+    else
+        showIntro();
 }
 function showIntro()
 {
@@ -35,31 +42,73 @@ function showIntro()
 function hideIntro()
 {
     $('#experiment-intro').hide();
-    startExperiment(experiment_id);
-    loadNextImage();
+//    startExperiment(experiment_id);
+//    loadNextImage();
 }
-function startExperiment(experiment_id)
+function hideUploadForm() {
+    $('#experiment-upload').hide();
+}
+function uploadFile()
 {
+//    var f = $('#experiment-mindwave-file').files[0];
+//    console.log(f);
+    var formData = new FormData();
+    console.log(mindwave_file);
+//    formData.append('file', $('#experiment-mindwave-file').files[0])
+    formData.append('mindwave_file', mindwave_file[0], mindwave_file[0].name);
+    formData.append('experiment_id', experiment_id);
+    var url = $('#mhreader-upload-mindwave-data-url').val();
+    var resp = $.ajax({
+        url: url, //Server script to process data
+        type: 'POST',
+        xhr: function() {  // Custom XMLHttpRequest
+            var myXhr = $.ajaxSettings.xhr();
+//            if (myXhr.upload) { // Check if upload property exists
+//                myXhr.upload.addEventListener('progress', progressHandlingFunction, false); // For handling the progress of the upload
+//            }
+            return myXhr;
+        },
+        //Ajax events
+        // Form data
+        data: formData,
+        //Options to tell jQuery not to process data or worry about content-type.
+        cache: false,
+        contentType: false,
+        processData: false,
+        async:false
+    });
+    console.log(resp);
+    return false;
+}
+function startExperiment()
+{
+    hideIntro();
+    active_file_index = -1;
     var url = $('#mhreader-start-experiment-url').val();
     var data = {experiment_id: experiment_id};
-    return getResponse(url, null, data, 'GET', false, false);
-
+    var resp = getResponse(url, null, data, 'GET', false, false);
+    loadNextImage();
 }
 
-function pauseExperiment(experiment_id)
+function pauseExperiment()
 {
 
 }
 
-function stopExperiment(experiment_id)
+function stopExperiment()
 {
     var url = $('#mhreader-stop-experiment-url').val();
     var data = {experiment_id: experiment_id};
     return getResponse(url, null, data, 'GET', false, false);
 }
+function getExperiment()
+{
+    var url = $('#mhreader-get-experiment-url').val();
+    var data = {experiment_id: experiment_id};
+    return getResponse(url, null, data, 'GET', false, true);
+}
 
-
-function getExperimentSet(experiment_id)
+function getExperimentSet()
 {
     var url = $('#mhreader-get-experiment-sets-url').val();
     console.log(url);
@@ -112,10 +161,20 @@ function loadNextImage()
     {
         $('#experiment-media-view').hide();
         stopExperiment(experiment_id);
+        showUploadForm();
 
     }
 }
+function showUploadForm()
+{
 
+    renderTemplate(TEMPLATES.EXPERIMENT_UPLOAD.target, TEMPLATES.EXPERIMENT_UPLOAD, {experiment_id: experiment_id}, false, false);
+    $('#experiment-mindwave-file').on('change', prepareMindaveUpload);
+}
+function prepareMindaveUpload(event)
+{
+    mindwave_file = event.target.files;
+}
 function startButtonTimer()
 {
     var counter = TIME_INTERVAL;

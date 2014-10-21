@@ -10,3 +10,4 @@ from ExperimentFile import *
 from ExperimentSetFile import *
 from ExperimentFileMetric import *
 from ExperimentLog import *
+from MindwaveLog import *

@@ -1,0 +1,11 @@
+<div id="experiment-upload" class="panel panel-default">
+    <div class="panel-heading">Upload Files</div>
+    <div class="panel-body">
+        <form enctype="multipart/form-data" id='file-upload-form' class="input-group">
+            <span class="input-group-addon" >Mindwave File </span>
+            <input type="file" class="form-control" id="experiment-mindwave-file"/>
+            <input type="button" class="form-control" value="Upload" onclick='uploadFile()'/>
+        </form>
+    </div>
+    <input type="button" class="btn btn-success" id="experiment-intro-button" onclick="startExperiment()" value="Restart"/>
+</div>
