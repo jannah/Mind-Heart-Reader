@@ -70,6 +70,9 @@ and open the template in the editor.
     background-color: black;
     text-align: center;
 }
+#experiment-image{
+    max-height:90%
+}
 #experiment-responses input[type=button]{
     margin: 1% 11%;
     width: 10%;
