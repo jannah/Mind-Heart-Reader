@@ -27,6 +27,7 @@ class Experiment(db.Model):
     end_time = Column(DateTime(timezone = True))
     completed = Column(Boolean)
     logs = relationship('ExperimentLog', backref=backref('experiment'), order_by='ExperimentLog.timestamp')
+    mindwave_logs = relationship('MindwaveLog', backref=backref('experiment'), order_by='MindwaveLog.timestamp')
     
     def start(self):
         self.start_time = datetime.now()

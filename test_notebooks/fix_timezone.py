@@ -9,24 +9,27 @@ from app import db
 from app.models import *
 from datetime import timedelta
 
-exp_logs = ExperimentLog.query.all()
 
-for exp_log in exp_logs:
-    print exp_log.timestamp
-    exp_log.timestamp = exp_log.timestamp+timedelta(hours=-7)
-#    print exp_log.timestamp
-    exp_log.timestamp = exp_log.timestamp.replace(microsecond=0)
-    db.session.add(exp_log)
-    db.session.flush()
-db.session.commit()
-exps = Experiment.query.all()
-for exp in exps:
-    if exp.start_time:
-        exp.start_time = exp.start_time+timedelta(hours=-7)
-        exp.start_time = exp.start_time.replace(microsecond=0)
-    if exp.end_time:
-        exp.end_time = exp.end_time+timedelta(hours=-7)
-        exp.end_time = exp.end_time.replace(microsecond=0)
-    db.session.add(exp)
-    db.session.flush()
+target_ids = [7, 10,11,12,13,15,16,17,18]
+for experiment_id in target_ids:
+    exp_logs = ExperimentLog.query.filter_by(experiment_id=experiment_id).all()
+
+    for exp_log in exp_logs:
+        print exp_log.timestamp
+#        exp_log.timestamp = exp_log.timestamp+timedelta(hours=-7)
+    #    print exp_log.timestamp
+        exp_log.timestamp = exp_log.timestamp.replace(microsecond=0)
+        db.session.add(exp_log)
+        db.session.flush()
+    db.session.commit()
+    exps = Experiment.query.filter_by(id=experiment_id).all()
+    for exp in exps:
+        if exp.start_time:
+#            exp.start_time = exp.start_time+timedelta(hours=-7)
+            exp.start_time = exp.start_time.replace(microsecond=0)
+        if exp.end_time:
+            exp.end_time = exp.end_time+timedelta(hours=-7)
+            exp.end_time = exp.end_time.replace(microsecond=0)
+        db.session.add(exp)
+        db.session.flush()
 db.session.commit()

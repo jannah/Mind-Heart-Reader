@@ -332,6 +332,71 @@ def upload_mindwave_data(experiment_id=None, mindwave_file=None):
         previous_timestamp = exp_log.timestamp           
     db.session.commit()
 
-        
+    fix_mindwave_log(experiment_id)
         
     return 'uploaded'
+
+
+def fix_mindwave_log(experiment_id):
+    experiment = Experiment.query.filter_by(id=experiment_id).first()
+    if experiment.start_time:
+        exp_logs = ExperimentLog.query.filter_by(experiment_id=experiment_id).all()
+
+        pre_mlogs = db.session.query(MindwaveLog).filter(MindwaveLog.experiment_id == experiment_id, \
+            MindwaveLog.timestamp<=experiment.start_time).all()
+        #fix pre experiment entries
+
+        for i in range(len(pre_mlogs)):
+            pmlog = pre_mlogs[i]
+            pmlog.index = i - len(pre_mlogs)
+            pmlog.image_order = None
+            db.session.add(pmlog)
+            db.session.flush()
+
+        index = 0
+        previous_timestamp = experiment.start_time + timedelta(seconds=-1)
+        for i in range(len(exp_logs)):
+            exp_log = exp_logs[i]
+            mlogs = db.session.query(MindwaveLog).filter(MindwaveLog.experiment_id == experiment_id, \
+                    MindwaveLog.timestamp<=exp_log.timestamp, \
+                    MindwaveLog.timestamp>previous_timestamp).all()
+            image_order_index = 1
+            if len(mlogs)>0:
+                mlogs[0].new_image = True
+                db.session.add(mlogs[0])
+                db.session.flush()
+                for mlog in mlogs:
+        #            mlog.response = exp_log.action
+                    mlog.index = index
+                    mlog.image_order = i+1
+                    mlog.image_order_index = image_order_index
+                    index += 1
+                    image_order_index+=1
+                    db.session.add(mlog)
+            db.session.flush()
+            previous_timestamp = exp_log.timestamp
+        if experiment.end_time:
+            post_mlogs = db.session.query(MindwaveLog).filter(MindwaveLog.experiment_id == experiment_id, \
+                MindwaveLog.timestamp>experiment.end_time).all()
+            for i in range(len(post_mlogs)):
+                pmlog = post_mlogs[i]
+                pmlog.index = index
+                index+=1
+                pmlog.image_order = None
+                db.session.add(pmlog)
+                db.session.flush()
+        db.session.commit()
+
+@mhrbp.route('/experiments/get_mindwave_data_dump')
+def get_mindwave_data_dump():
+    mwls=MindwaveLog.query.all()
+    mwls = [mwl.to_json() for mwl in mwls]
+    headers = [key for key in mwls[0]]
+    data =[",".join([str(mwl[key]) for key in headers]) for mwl in mwls ]
+    results = [",".join(headers)] + data
+    results = '\n'.join(results)
+    response = make_response(results)
+    # This is the key: Set the right header for the response
+    # to be downloaded, instead of just printed on the browser
+    response.headers["Content-Disposition"] = "attachment; filename=mindwave_data_dump.csv"
+    return response
