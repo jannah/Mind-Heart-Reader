@@ -42,13 +42,15 @@ class MindwaveLog(db.Model):
     new_image = Column(Boolean)
     image_order = Column(Integer)
     image_order_index = Column(Integer)
+    experiment_file_id = Column(Integer, ForeignKey('mhreader_experiment_files.id'))
+    experiment_log_id = Column(Integer, ForeignKey('mhreader_experiment_logs.id'))
     
 #    logs = relationship('ExperimentLog', backref=backref('experiment'), order_by='ExperimentLog.timestamp')
    
     def __init__(self, experiment_id ,  timestamp, attention=0.0,\
     meditation=0.0,familiarity=0.0,mental_effort=0.0,\
     appreciation=0.0,signal_quality = 0, event_tagger = -1, delta=0.0,theta=0.0,alpha=0.0,beta=0.0,gamma=0.0, response = None,\
-        index = 0,new_image = False, image_order =0, image_order_index=0):
+        index = 0,new_image = False, image_order =0, image_order_index=0, experiment_file_id=None):
         self.experiment_id =experiment_id
         self.index = index
         self.timestamp = timestamp
@@ -68,6 +70,7 @@ class MindwaveLog(db.Model):
         self.new_image = new_image
         self.image_order = image_order
         self.image_order_index = image_order_index
+        self.experiment_file_id = experiment_file_id
 
     def __repr__(self):
         return json.dumps(self.to_json())
@@ -79,4 +82,11 @@ class MindwaveLog(db.Model):
         j['timestamp'] = str(self.timestamp)
         j['experiment_title']=self.experiment.title
         j['experiment_user']=self.experiment.user.name
+        j['filename'] = ''
+        j['projected_male_response'] = ''
+        j['projected_female_response'] = ''
+        if self.experiment_file_id:
+            j['filename']=self.experiment_file.filename
+            j['projected_male_response'] = self.experiment_file.male_response
+            j['projected_female_response'] = self.experiment_file.female_response
         return j

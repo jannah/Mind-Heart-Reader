@@ -367,9 +367,12 @@ def fix_mindwave_log(experiment_id):
                 db.session.flush()
                 for mlog in mlogs:
         #            mlog.response = exp_log.action
+                    mlog.new_image = True if mlog.new_image == True else False
                     mlog.index = index
                     mlog.image_order = i+1
                     mlog.image_order_index = image_order_index
+                    mlog.experiment_file_id = exp_log.experiment_file_id
+                    mlog.experiment_log_id = exp_log.id
                     index += 1
                     image_order_index+=1
                     db.session.add(mlog)

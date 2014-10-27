@@ -29,6 +29,7 @@ class ExperimentFile(db.Model):
     metrics= relationship('ExperimentFileMetric', backref=backref('experiment_file'), cascade= 'delete')
     experiment_set_file= relationship('ExperimentSetFile', backref=backref('experiment_file'), cascade= 'delete')
     experiment_logs= relationship('ExperimentLog', backref=backref('experiment_file'), cascade= 'delete')
+    mindwave_logs= relationship('MindwaveLog', backref=backref('experiment_file'))
     
     def __init__(self, stimulus_type, title, filename, filepath='', \
     file_set_number = 0,male_response='', female_response='', remarks =''):

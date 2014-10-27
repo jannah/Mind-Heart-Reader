@@ -25,6 +25,7 @@ class ExperimentLog(db.Model):
     action_type = Column(String)
     experiment_file_id = Column(Integer, ForeignKey('mhreader_experiment_files.id'))
     result = Column(String)
+    mindwave_logs= relationship('MindwaveLog', backref=backref('experiment_log'))
 
     
     def __init__(self, user_id, experiment_id, action, action_type=None,timestamp=None,  experiment_file_id = None, result = None):

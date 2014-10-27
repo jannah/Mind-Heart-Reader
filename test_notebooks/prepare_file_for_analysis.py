@@ -72,6 +72,8 @@ def upload_mindwave_data(experiment_id=None, mindwave_file=None):
         
         for mlog in mlogs:
             mlog.response = exp_log.action
+            mlog.experiment_file_id = exp_log.experiment_file_id
+            mlog.experiment_log_id = exp_log.id
             db.session.add(mlog)
         db.session.flush()
         previous_timestamp = exp_log.timestamp           
@@ -110,10 +112,13 @@ def fix_mindwave_log(experiment_id):
                 db.session.add(mlogs[0])
                 db.session.flush()
                 for mlog in mlogs:
-        #            mlog.response = exp_log.action
+                    mlog.response = exp_log.action
+                    mlog.new_image = True if mlog.new_image == True else False
                     mlog.index = index
                     mlog.image_order = i+1
                     mlog.image_order_index = image_order_index
+                    mlog.experiment_file_id = exp_log.experiment_file_id
+                    mlog.experiment_log_id = exp_log.id
                     index += 1
                     image_order_index+=1
                     db.session.add(mlog)
@@ -130,7 +135,6 @@ def fix_mindwave_log(experiment_id):
                 db.session.add(pmlog)
                 db.session.flush()
         db.session.commit()
-
 
 experiments = Experiment.query.all()
 for exp in experiments:
