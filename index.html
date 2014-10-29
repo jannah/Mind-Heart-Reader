@@ -84,28 +84,44 @@ Evaluation - To be filled later with some representative data/statistics/graphs 
 Final Portfolio Pieces / Pictures - To be added later.</li>
 </ul>
 
-<p>Activities:
-Image Selection:</p>
 
-<p>Experiment App:
-We built the app and backend database to display and capture user images
-Process:
-Create user-&gt; create experiment with specific image/sound set -&gt; connect sensors -&gt; conduct -&gt; upload sensor data.
-Initially, we had a 20 second time window per file. We found that users were bored and anxious to proceed so we reduced it to 15 seconds but with 25 image. One hypothesis is that the data that matters is in the beginning of each window (i.e. the first impression).
-We had issues mapping the times of user responses with mindwave data because of different timezone settings so we had to fix that programmatically.
-We deployed the app on Amazon Web Services to allow all members access to it. However, the images/sounds were stored on a our secure iSchool server and accessed remotely from AWS.
-Experiments:
-Conducted several 10 complete experiments
-4 participants did both sound and image experiments
-Conduced several failed experiments:
-Sensors didn’t connect
-NeuroSky platform didn’t start or crashed
-Unable to obtain good quality signal before or during the experiment
+<h1>
+<a name="activities" class="anchor" href="#activities"><span class="octicon octicon-link"></span></a>Activities:</h1>
+
+<h2>
+<a name="image-selection" class="anchor" href="#image-selection"><span class="octicon octicon-link"></span></a>Image Selection:</h2>
+
+<h2>
+<a name="experiment-app" class="anchor" href="#experiment-app"><span class="octicon octicon-link"></span></a>Experiment App:</h2>
+
+<p>We built the app and backend database to display and capture user images</p>
+
+<h2>
+<a name="process" class="anchor" href="#process"><span class="octicon octicon-link"></span></a>Process:</h2>
+
+<ul>
+<li>Create user-&gt; create experiment with specific image/sound set -&gt; connect sensors -&gt; conduct -&gt; upload sensor data.</li>
+<li>Initially, we had a 20 second time window per file. We found that users were bored and anxious to proceed so we reduced it to 15 seconds but with 25 image. One hypothesis is that the data that matters is in the beginning of each window (i.e. the first impression).</li>
+<li>We had issues mapping the times of user responses with mindwave data because of different timezone settings so we had to fix that programmatically.</li>
+<li>We deployed the app on Amazon Web Services to allow all members access to it. However, the images/sounds were stored on a our secure iSchool server and accessed remotely from AWS.</li>
+</ul>
+
+<h1>
+<a name="experiments" class="anchor" href="#experiments"><span class="octicon octicon-link"></span></a>Experiments:</h1>
+
+<ul>
+<li>Conducted several 10 complete experiments</li>
+<li>4 participants did both sound and image experiments</li>
+<li>Conduced several failed experiments:</li>
+<li>Sensors didn’t connect</li>
+<li>NeuroSky platform didn’t start or crashed</li>
+<li>Unable to obtain good quality signal before or during the experiment
 Changed experiment setup to be on two machines instead of one:
 managing the sensor platform and the experiment application was too distracting and confusing to the users. We prepared a dedicated laptop for the sensors and conducted experiment using isolated desktops in the co lab. This was also better ergonomically for the participants.
-Visualization
+# Visualization
 Initial plan was to build custom visualizations with D3 into the app. However, when we explored the data from early experiments visually using Tableau, we didn’t find any clear patterns. We decided to focus our time and effort doing visual analysis using Tableau instead of spending time on building custom visualization that might not show anything.
-We had to customize the database data dump to make it more suitable for visual analysis with Tableau.</p>
+We had to customize the database data dump to make it more suitable for visual analysis with Tableau.</li>
+</ul>
 
 <p>Classification</p>
 
