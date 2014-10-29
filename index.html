@@ -31,37 +31,88 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <h1>
+<a name="project-goals-and-research-questions--" class="anchor" href="#project-goals-and-research-questions--"><span class="octicon octicon-link"></span></a>Project Goals and Research Questions -</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>We intend to use the IAPS[1] and IADS[2] dataset to compare the patterns in brain waves in response to visual and aural stimuli. The key question is whether users’ emotional response to a certain stimulus differs based on the medium of that stimulus (in this case images v/s. sounds). 
+We will also build machine learning classifier which classifies the brainwaves and predicts emotional response for the user. Within each stimulus, we will prompt the user for a response (like, neutral, dislike).  After several iterations, we can train the classifier using bio-data inputs tagged with users responses. The classifier can then be used to predict a user’s response based on bio-data inputs.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<h1>
+<a name="use-cases" class="anchor" href="#use-cases"><span class="octicon octicon-link"></span></a>Use Cases</h1>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h1>
+<a name="interviews-and-ideation-plan" class="anchor" href="#interviews-and-ideation-plan"><span class="octicon octicon-link"></span></a>Interviews and Ideation Plan</h1>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<p>We will build an user interface which will display images and play sounds for the subject to rate them in one of the three categories - Like, Dislike and Neutral.
+We will customize the interview methodology used in the IAPS and IADS studies which was a paper based version and asked users to rate the images and sound in a booklet. They closely follow the Self-assessment Manikin(SAM, Lang 1980) methodology. Parameters such as time the image/sound is provided to user are to be determined.
+Feasibility - </p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<h2>
+<a name="dataset" class="anchor" href="#dataset"><span class="octicon octicon-link"></span></a>Dataset</h2>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<p>The two datasets are standardized and have been used in research extensively.  We aim to use subsets of each dataset that are equivalent to each other. The images and sounds used in each experiment will be selected carefully. We aim to use more extreme images along the emotional dimension the dataset has. Our plan is get image that are likely to illicit highly positive or highly negative emotion. Neutral images help control for both responses. This will , hopefully, reduce dimensionality of user responses and improve chances of predicting those responses.</p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<h2>
+<a name="hardware" class="anchor" href="#hardware"><span class="octicon octicon-link"></span></a>Hardware:</h2>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<p><strong>Mindwave:</strong> We will be using the Mindwave device to capture brainwave data
+Basis Watch:  To capture heart rate data  </p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<h2>
+<a name="software" class="anchor" href="#software"><span class="octicon octicon-link"></span></a>Software:</h2>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p><strong>Python/Web:</strong> We are using a python web app (with flask) to conduct the experiments, analyze the data, and visualize the conclusions. This architecture allows us to combine both UI elements with backend data processing. Also, because timing is critical, we need to ensure we time user responds accurately to synchronize them with data inputs from the sensors. Using python also allows us to use the mindwave sensor in real time if possible. We have extended the indra-client module to allows us (and anyone else) to run it in parallel with our application. one downside to this is that we won’t be able to use NeuroSky metrics which need to be post-calculated.
+<strong>Scikit-Learn: ** Python library for machine learning
+NeuroSky Apps: to capture and calculate mindwave data and metrics
+**D3:</strong> for data visualization. (We used Tableau instead to focus on analysis instead of visualization)
+User Testing and Prototype Iterations - Add any link to a prototype, add videos or pictures.
+Build the technical backend to conduct the experiment and capture user responses.
+Conduct several experiments informally within the I School friends and family network to capture bio data and responses</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<h1>
+<a name="prepare-bio-data-for-analysis" class="anchor" href="#prepare-bio-data-for-analysis"><span class="octicon octicon-link"></span></a>Prepare bio data for analysis:</h1>
+
+<ul>
+<li>calculate mindwave metrics and load them to the database</li>
+<li>upload heart rate data to the database</li>
+<li>Analyze the different data streams to:</li>
+<li>compare stimulus responses for each user</li>
+<li>build the prediction classifier</li>
+<li>build information visualizations to simulate the experiment</li>
+<li>Conduct additional interviews with the full system to verify the findings
+Evaluation - To be filled later with some representative data/statistics/graphs that prove you succeeded (or not!)
+Final Portfolio Pieces / Pictures - To be added later.</li>
+</ul>
+
+<p>Activities:
+Image Selection:</p>
+
+<p>Experiment App:
+We built the app and backend database to display and capture user images
+Process:
+Create user-&gt; create experiment with specific image/sound set -&gt; connect sensors -&gt; conduct -&gt; upload sensor data.
+Initially, we had a 20 second time window per file. We found that users were bored and anxious to proceed so we reduced it to 15 seconds but with 25 image. One hypothesis is that the data that matters is in the beginning of each window (i.e. the first impression).
+We had issues mapping the times of user responses with mindwave data because of different timezone settings so we had to fix that programmatically.
+We deployed the app on Amazon Web Services to allow all members access to it. However, the images/sounds were stored on a our secure iSchool server and accessed remotely from AWS.
+Experiments:
+Conducted several 10 complete experiments
+4 participants did both sound and image experiments
+Conduced several failed experiments:
+Sensors didn’t connect
+NeuroSky platform didn’t start or crashed
+Unable to obtain good quality signal before or during the experiment
+Changed experiment setup to be on two machines instead of one:
+managing the sensor platform and the experiment application was too distracting and confusing to the users. We prepared a dedicated laptop for the sensors and conducted experiment using isolated desktops in the co lab. This was also better ergonomically for the participants.
+Visualization
+Initial plan was to build custom visualizations with D3 into the app. However, when we explored the data from early experiments visually using Tableau, we didn’t find any clear patterns. We decided to focus our time and effort doing visual analysis using Tableau instead of spending time on building custom visualization that might not show anything.
+We had to customize the database data dump to make it more suitable for visual analysis with Tableau.</p>
+
+<p>Classification</p>
+
+<p>References
+[1] Lang, P.J., Bradley, M.M., &amp; Cuthbert, B.N. (2008). International affective picture system (IAPS): Affective ratings of pictures and instruction manual. Technical Report A-8. University of Florida, Gainesville, FL.</p>
+
+<p>[2] Bradley, M. M., &amp; Lang, P. J. (1999). International affective digitized sounds (IADS): Stimuli, instruction manual and affective ratings (Tech. Rep. No. B-2). Gainesville, FL: The Center for Research in Psychophysiology, University of Florida</p>
       </section>
     </div>
 
