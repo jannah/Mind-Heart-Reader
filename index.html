@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Mind-heart-reader : ">
+    <meta name="description" content="Mind-heart-reader : An experiment with EEG Signals">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -19,7 +19,7 @@
           <a id="forkme_banner" href="https://github.com/jannah/Mind-Heart-Reader">View on GitHub</a>
 
           <h1 id="project_title">Mind-heart-reader</h1>
-          <h2 id="project_tagline"></h2>
+          <h2 id="project_tagline">An experiment with EEG Signals</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/jannah/Mind-Heart-Reader/zipball/master">Download this project as a .zip file</a>
@@ -41,7 +41,8 @@
 <h2>
 <a name="project-goals-and-research-questions" class="anchor" href="#project-goals-and-research-questions"><span class="octicon octicon-link"></span></a>Project Goals and Research Questions</h2>
 
-<p>We used the IAPS[1] and IADS[2] dataset to compare the patterns in brain waves in response to visual and aural stimuli. The key question we had was whether users’ emotional response to a certain stimulus differs based on the medium of that stimulus (in this case images v/s. sounds). </p>
+<p>We used the IAPS[1] and IADS[2] dataset to compare the patterns in brain waves in response to visual and aural stimuli. The key question we had was whether users’ emotional response to a certain stimulus differs based on the medium of that stimulus (in this case images v/s. sounds). 
+For consistency, we used 25 files from IADS and 25 files from IADP that correlated to the same theme for testing. </p>
 
 <h2>
 <a name="potential-applications" class="anchor" href="#potential-applications"><span class="octicon octicon-link"></span></a>Potential Applications</h2>
@@ -49,7 +50,8 @@
 <p>Targeted Advertising: focus on showing images that can solicit the desired behavior from the user based on their history. The same goes for stimulus selection. If a user is known to respond better to sounds than images, then advertisments should have a strong sound element. Sound or image can be emphasized or de-emphasized and the content can be made more adaptive to user’s responses without any direct feedback.
 Standardized Tests: By understanding users EEG patterns, standardized psychological and personality tests could be improved by reducing the likelihood of a user lying to fool the test.
 Education: If one type of stimulus is proven to be better than the other in eliciting certain types of responses (e.g attention, appreciation, etc.), classroom instruction methods can be redesigned or diversified to exploit these results for more effective teaching.
-Cinema/Filmmaking/Media: The results can better inform filmmakers about which elements of stimulus might be more effective in which contexts in cinematography. </p>
+Cinema/Filmmaking/Media: The results can better inform filmmakers about which elements of stimulus might be more effective in which contexts in cinematography. 
+Marketing/Advertising: By identifying which type of medium accrues the greater brainwave data, there can be an understanding of which medium to use for marketing purposes to capture the audience’s attention. Comparing the peaks for each medium, it can help determine which will allow for optimal interest and focus. </p>
 
 <h2>
 <a name="interviews-and-ideation-plan" class="anchor" href="#interviews-and-ideation-plan"><span class="octicon octicon-link"></span></a>Interviews and Ideation Plan</h2>
@@ -70,9 +72,8 @@ Instead of using papers, we built a user interface which displays images and pla
 <h2>
 <a name="hardware" class="anchor" href="#hardware"><span class="octicon octicon-link"></span></a>Hardware:</h2>
 
-<p><strong>Mindwave:</strong> We will be using the Mindwave device to capture brainwave data</p>
-
-<p><strong>HR Sensor:</strong>  To capture heart rate data. This was planned but we could not find a HR sensor that gives out the data every second. </p>
+<p><strong>Mindwave:</strong> We will be using the Mindwave device to capture brainwave data
+<strong>HR Sensor:</strong>  To capture heart rate data. This was planned but we could not find a HR sensor that gives out the data per second. Devices available provided readings based on minutes. </p>
 
 <h2>
 <a name="software" class="anchor" href="#software"><span class="octicon octicon-link"></span></a>Software:</h2>
@@ -91,26 +92,24 @@ Instead of using papers, we built a user interface which displays images and pla
 <h2>
 <a name="approach" class="anchor" href="#approach"><span class="octicon octicon-link"></span></a>Approach</h2>
 
-<ol>
-<li>Build the technical backend to conduct the experiment and capture user responses.</li>
-<li>Conduct several experiments informally within the I School friends and family network to capture bio data and responses</li>
-<li>Prepare bio data for analysis:
+<p>Build the technical backend to conduct the experiment and capture user responses.
+Conduct several experiments informally within the I School friends and family network to capture bio data and responses.
+Prepare bio data for analysis
+    * calculate mindwave metrics and load them to the database</p>
 
 <ul>
-<li>calculate mindwave metrics and load them to the database</li>
-<li>upload heart rate data to the database</li>
-</ul>
-</li>
-<li>Analyze the different data streams to:
+<li>upload heart rate data to the database
+Analyze the different data streams to:</li>
+<li>compare stimulus responses for each user
 
 <ul>
-<li>compare stimulus responses for each user</li>
 <li>build the prediction classifier</li>
-<li>build information visualizations to simulate the experiment</li>
 </ul>
 </li>
-<li>Conduct additional interviews with the full system to verify the findings</li>
-</ol>
+<li>build information visualizations to simulate the experiment
+Conduct additional interviews with the full system to verify the findings.
+Brief follow up about the experience of the experiment. </li>
+</ul>
 
 <h2>
 <a name="image-selection" class="anchor" href="#image-selection"><span class="octicon octicon-link"></span></a>Image Selection:</h2>
@@ -153,8 +152,29 @@ Instead of using papers, we built a user interface which displays images and pla
 </ul>
 </li>
 <li>Changed experiment setup to be on two machines instead of one:</li>
-<li>managing the sensor platform and the experiment application was too distracting and confusing to the users. We prepared a dedicated laptop for the sensors and conducted experiment using isolated desktops in the co lab. This was also better ergonomically for the participants.</li>
+<li>
+<p>managing the sensor platform and the experiment application was too distracting and confusing to the users. We prepared a dedicated laptop for the sensors and conducted experiment using isolated desktops in the co lab. This was also better ergonomically for the participants.</p>
+
+<h2>
+<a name="experiment-demo" class="anchor" href="#experiment-demo"><span class="octicon octicon-link"></span></a>Experiment Demo</h2>
+
+<p>Demo can be found at: </p>
+</li>
 </ul>
+
+
+
+<p>The demo shows the process of initiating the sign up process for the experiment and the user completing the experiment with the IAPS data set.</p>
+
+<p>Because users were unfamiliar with the device, we were there to help setup the Mindwave instrument on them: </p>
+
+<p><img src="https://raw.githubusercontent.com/jannah/Mind-Heart-Reader/master/analysis/images/user2.jpg"></p>
+
+<p>Below is an example screen the user encountered looking at the IAPS dataset and were given the option to Like, Dislike, or Neutral about how they felt about the image. 
+<img src="https://raw.githubusercontent.com/jannah/Mind-Heart-Reader/master/analysis/images/dogs.jpg"></p>
+
+<p>Reactions varied based on what the user encountered:
+<img src="https://raw.githubusercontent.com/jannah/Mind-Heart-Reader/master/analysis/images/user1.jpg"></p>
 
 <h2>
 <a name="visualization" class="anchor" href="#visualization"><span class="octicon octicon-link"></span></a>Visualization</h2>
@@ -178,7 +198,7 @@ Instead of using papers, we built a user interface which displays images and pla
 <a name="evaluation" class="anchor" href="#evaluation"><span class="octicon octicon-link"></span></a>Evaluation</h1>
 
 <h2>
-<a name="analysys--results" class="anchor" href="#analysys--results"><span class="octicon octicon-link"></span></a>Analysys &amp; Results</h2>
+<a name="analysis--results" class="anchor" href="#analysis--results"><span class="octicon octicon-link"></span></a>Analysis &amp; Results</h2>
 
 <p><img src="https://raw.githubusercontent.com/jannah/Mind-Heart-Reader/master/analysis/images/image1.jpg">
 <img src="https://raw.githubusercontent.com/jannah/Mind-Heart-Reader/master/analysis/images/image2.jpg">
@@ -204,17 +224,17 @@ Instead of using papers, we built a user interface which displays images and pla
 <li>Isolating the effects of various confounding factors that can affect signal
 
 <ul>
-<li>e.g. biases, surroundings, sensor position, signal quality, etc. </li>
+<li>e.g. biases, surroundings, sensor position, signal quality, etc. 
+Controlled environment
+There were times the users were distracted and so for future experiments, it will be done in a more closed setting
+Understanding of the device
+Participants were unfamiliar with the device which may have caused an impact to the readings given that they may have focused more on what they were wearing than the data. 
+## Next Steps</li>
 </ul>
 </li>
-</ul>
-
-<h2>
-<a name="next-steps" class="anchor" href="#next-steps"><span class="octicon octicon-link"></span></a>Next Steps</h2>
-
-<ul>
 <li>Use EEG raw data to analyze and build power spectrums</li>
-<li>More experiments in better controlled environments </li>
+<li>More experiments in better controlled environments 
+Inform users ahead of time about the device being used so they can have a sense of familiarity and not be distracted by it</li>
 </ul>
 
 <h1>
