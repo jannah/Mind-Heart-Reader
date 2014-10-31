@@ -32,113 +32,113 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a name="project-goals-and-research-questions--" class="anchor" href="#project-goals-and-research-questions--"><span class="octicon octicon-link"></span></a>Project Goals and Research Questions -</h1>
-
-<p>We intend to use the IAPS[1] and IADS[2] dataset to compare the patterns in brain waves in response to visual and aural stimuli. The key question is whether users’ emotional response to a certain stimulus differs based on the medium of that stimulus (in this case images v/s. sounds). 
-We will also build machine learning classifier which classifies the brainwaves and predicts emotional response for the user. Within each stimulus, we will prompt the user for a response (like, neutral, dislike).  After several iterations, we can train the classifier using bio-data inputs tagged with users responses. The classifier can then be used to predict a user’s response based on bio-data inputs.</p>
-
-<h1>
-<a name="use-cases" class="anchor" href="#use-cases"><span class="octicon octicon-link"></span></a>Use Cases</h1>
-
-<h1>
-<a name="interviews-and-ideation-plan" class="anchor" href="#interviews-and-ideation-plan"><span class="octicon octicon-link"></span></a>Interviews and Ideation Plan</h1>
-
-<p>We will build an user interface which will display images and play sounds for the subject to rate them in one of the three categories - Like, Dislike and Neutral.
-We will customize the interview methodology used in the IAPS and IADS studies which was a paper based version and asked users to rate the images and sound in a booklet. They closely follow the Self-assessment Manikin(SAM, Lang 1980) methodology. Parameters such as time the image/sound is provided to user are to be determined.
-Feasibility - </p>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h1>
 
 <h2>
-<a name="dataset" class="anchor" href="#dataset"><span class="octicon octicon-link"></span></a>Dataset</h2>
+<a name="project-goals-and-research-questions" class="anchor" href="#project-goals-and-research-questions"><span class="octicon octicon-link"></span></a>Project Goals and Research Questions</h2>
 
-<p>The two datasets are standardized and have been used in research extensively.  We aim to use subsets of each dataset that are equivalent to each other. The images and sounds used in each experiment will be selected carefully. We aim to use more extreme images along the emotional dimension the dataset has. Our plan is get image that are likely to illicit highly positive or highly negative emotion. Neutral images help control for both responses. This will , hopefully, reduce dimensionality of user responses and improve chances of predicting those responses.</p>
+<p>We used the IAPS[1] and IADS[2] dataset to compare the patterns in brain waves in response to visual and aural stimuli. The key question we had was whether users’ emotional response to a certain stimulus differs based on the medium of that stimulus (in this case images v/s. sounds). 
+We built a machine learning classifier which classifies the brainwaves and predicts emotional response for the user. Within each stimulus, we prompted the user for a response (like, neutral, dislike).  After several iterations, we train the classifier using bio-data inputs tagged with users responses. The classifier can then be used to predict a user’s response based on bio-data inputs.</p>
+
+<h2>
+<a name="potential-applications" class="anchor" href="#potential-applications"><span class="octicon octicon-link"></span></a>Potential Applications</h2>
+
+<p>Targeted Advertising: focus on showing images that can solicit the desired behavior from the user based on their history. The same goes for stimulus selection. If a user is known to respond better to sounds than images, then advertisments should have a strong sound element.
+Standardized Tests: By understanding users EEG patterns, standardized psychological and personality tests could be improved by reducing the likelihood of a user lying to fool the test.</p>
+
+<h2>
+<a name="interviews-and-ideation-plan" class="anchor" href="#interviews-and-ideation-plan"><span class="octicon octicon-link"></span></a>Interviews and Ideation Plan</h2>
+
+<p>We built a user interface which displays images and plays sounds for the subject to rate them in one of the three categories - Like, Dislike and Neutral.
+We customized the interview methodology used in the IAPS and IADS studies which was a paper based version and asked users to rate the images and sound in a booklet. They closely follow the Self-assessment Manikin(SAM, Lang 1980) methodology. Parameters such as time the image/sound is provided to user are to be determined.</p>
+
+<h1>
+<a name="components" class="anchor" href="#components"><span class="octicon octicon-link"></span></a>Components</h1>
+
+<h2>
+<a name="dataset" class="anchor" href="#dataset"><span class="octicon octicon-link"></span></a>Dataset:</h2>
+
+<p>Thea IAPS and IADS  datasets are standardized and have been used in research extensively.  We aim to use subsets of each dataset that are equivalent to each other. The images and sounds used in each experiment will be selected carefully. We aim to use more extreme images along the emotional dimension the dataset has. Our plan is get image that are likely to illicit highly positive or highly negative emotion. Neutral images help control for both responses. This will , hopefully, reduce dimensionality of user responses and improve chances of predicting those responses.
+We customized the interview methodology used in the IAPS and IADS studies which was a paper based version and asked users to rate the images and sound in a booklet. They closely follow the Self-assessment Manikin(SAM, Lang 1980) methodology. Parameters such as time the image/sound is provided to user are to be determined.
+Instead of using papers, we built a user interface which displays images and plays sounds for the subject to rate them in one of the three categories - Like, Dislike and Neutral.</p>
 
 <h2>
 <a name="hardware" class="anchor" href="#hardware"><span class="octicon octicon-link"></span></a>Hardware:</h2>
 
-<p><strong>Mindwave:</strong> We will be using the Mindwave device to capture brainwave data
-Basis Watch:  To capture heart rate data  </p>
+<p><strong>Mindwave:</strong> We will be using the Mindwave device to capture brainwave data</p>
+
+<p><strong>HR Sensor:</strong>  To capture heart rate data. This was planned but we could not find a HR sensor that gives out the data every second. </p>
 
 <h2>
 <a name="software" class="anchor" href="#software"><span class="octicon octicon-link"></span></a>Software:</h2>
 
-<p><strong>Python/Web:</strong> We are using a python web app (with flask) to conduct the experiments, analyze the data, and visualize the conclusions. This architecture allows us to combine both UI elements with backend data processing. Also, because timing is critical, we need to ensure we time user responds accurately to synchronize them with data inputs from the sensors. Using python also allows us to use the mindwave sensor in real time if possible. We have extended the indra-client module to allows us (and anyone else) to run it in parallel with our application. one downside to this is that we won’t be able to use NeuroSky metrics which need to be post-calculated.
-<strong>Scikit-Learn: ** Python library for machine learning
-NeuroSky Apps: to capture and calculate mindwave data and metrics
-**D3:</strong> for data visualization. (We used Tableau instead to focus on analysis instead of visualization)
-User Testing and Prototype Iterations - Add any link to a prototype, add videos or pictures.
+<p><strong>Python/Web:</strong> We are using a python web app (with flask) to conduct the experiments, analyze the data, and visualize the conclusions. This architecture allows us to combine both UI elements with backend data processing. Also, because timing is critical, we need to ensure we time user responds accurately to synchronize them with data inputs from the sensors. Using python also allows us to use the mindwave sensor in real time if possible. We have extended the indra-client module to allows us (and anyone else) to run it in parallel with our application. one downside to this is that we won’t be able to use NeuroSky metrics which need to be post-calculated.</p>
+
+<p><strong>Scikit-Learn:</strong> Python library for machine learning</p>
+
+<p><strong>NeuroSky Apps:</strong> to capture and calculate mindwave data and metrics</p>
+
+<p>**Tableau: ** Tableau for visual analysis of the data.</p>
+
+<p>User Testing and Prototype Iterations - Add any link to a prototype, add videos or pictures.
 Build the technical backend to conduct the experiment and capture user responses.
-Conduct several experiments informally within the I School friends and family network to capture bio data and responses</p>
+Conduct several experiments informally within the I School friends and family network to capture bio data and responses
+Prepare bio data for analysis:
+calculate mindwave metrics and load them to the database
+upload heart rate data to the database
+Analyze the different data streams to:
+compare stimulus responses for each user
+build the prediction classifier
+build information visualizations to simulate the experiment
+Conduct additional interviews with the full system to verify the findings</p>
 
 <h1>
-<a name="prepare-bio-data-for-analysis" class="anchor" href="#prepare-bio-data-for-analysis"><span class="octicon octicon-link"></span></a>Prepare bio data for analysis:</h1>
-
-<ul>
-<li>calculate mindwave metrics and load them to the database</li>
-<li>upload heart rate data to the database</li>
-<li>Analyze the different data streams to:</li>
-<li>compare stimulus responses for each user</li>
-<li>build the prediction classifier</li>
-<li>build information visualizations to simulate the experiment</li>
-<li>Conduct additional interviews with the full system to verify the findings
-Evaluation - To be filled later with some representative data/statistics/graphs that prove you succeeded (or not!)
-Final Portfolio Pieces / Pictures - To be added later.</li>
-</ul>
-
-
-<h1>
-<a name="activities" class="anchor" href="#activities"><span class="octicon octicon-link"></span></a>Activities:</h1>
+<a name="implementation" class="anchor" href="#implementation"><span class="octicon octicon-link"></span></a>Implementation</h1>
 
 <h2>
 <a name="image-selection" class="anchor" href="#image-selection"><span class="octicon octicon-link"></span></a>Image Selection:</h2>
 
 <h2>
-<a name="experiment-app" class="anchor" href="#experiment-app"><span class="octicon octicon-link"></span></a>Experiment App:</h2>
+<a name="experiment-app" class="anchor" href="#experiment-app"><span class="octicon octicon-link"></span></a>Experiment App</h2>
 
-<p>We built the app and backend database to display and capture user images</p>
+<p>We built the Mind-Heart-Reader app and backend database to display and capture user images
+Process:
+Create user-&gt; create experiment with specific image/sound set -&gt; connect sensors -&gt; conduct -&gt; upload sensor data.
+Initially, we had a 20 second time window per file. We found that users were bored and anxious to proceed so we reduced it to 15 seconds but with 25 image. One hypothesis is that the data that matters is in the beginning of each window (i.e. the first impression).
+We had issues mapping the times of user responses with mindwave data because of different timezone settings so we had to fix that programmatically.
+We deployed the app on Amazon Web Services to allow all members access to it. However, the images/sounds were stored on a our secure iSchool server and accessed remotely from AWS.</p>
 
 <h2>
-<a name="process" class="anchor" href="#process"><span class="octicon octicon-link"></span></a>Process:</h2>
+<a name="experiments" class="anchor" href="#experiments"><span class="octicon octicon-link"></span></a>Experiments</h2>
 
-<ul>
-<li>Create user-&gt; create experiment with specific image/sound set -&gt; connect sensors -&gt; conduct -&gt; upload sensor data.</li>
-<li>Initially, we had a 20 second time window per file. We found that users were bored and anxious to proceed so we reduced it to 15 seconds but with 25 image. One hypothesis is that the data that matters is in the beginning of each window (i.e. the first impression).</li>
-<li>We had issues mapping the times of user responses with mindwave data because of different timezone settings so we had to fix that programmatically.</li>
-<li>We deployed the app on Amazon Web Services to allow all members access to it. However, the images/sounds were stored on a our secure iSchool server and accessed remotely from AWS.</li>
-</ul>
+<p>Conducted several 10 complete experiments
+4 participants did both sound and image experiments
+Conduced several failed experiments:
+Sensors didn’t connect
+NeuroSky platform didn’t start or crashed
+Unable to obtain good quality signal before or during the experiment
+Changed experiment setup to be on two machines instead of one:
+managing the sensor platform and the experiment application was too distracting and confusing to the users. We prepared a dedicated laptop for the sensors and conducted experiment using isolated desktops in the co lab. This was also better ergonomically for the participants.</p>
+
+<h2>
+<a name="visualization" class="anchor" href="#visualization"><span class="octicon octicon-link"></span></a>Visualization</h2>
+
+<p>Initial plan was to build custom visualizations with D3 into the app. However, when we explored the data from early experiments visually using Tableau, we didn’t find any clear patterns. We decided to focus our time and effort doing visual analysis using Tableau instead of spending time on building custom visualization that might not show anything.
+We had to customize the database data dump to make it more suitable for visual analysis with Tableau.</p>
+
+<h2>
+<a name="classification" class="anchor" href="#classification"><span class="octicon octicon-link"></span></a>Classification</h2>
 
 <h1>
-<a name="experiments" class="anchor" href="#experiments"><span class="octicon octicon-link"></span></a>Experiments:</h1>
+<a name="evaluation" class="anchor" href="#evaluation"><span class="octicon octicon-link"></span></a>Evaluation</h1>
 
-<ul>
-<li>Conducted several 10 complete experiments
+<p>Final Portfolio Pieces / Pictures - To be added later.</p>
 
-<ul>
-<li>4 participants did both sound and image experiments</li>
-</ul>
-</li>
-<li>Conduced several failed experiments:
 
-<ul>
-<li>Sensors didn’t connect</li>
-<li>NeuroSky platform didn’t start or crashed</li>
-<li>Unable to obtain good quality signal before or during the experiment</li>
-</ul>
-</li>
-<li>Changed experiment setup to be on two machines instead of one:
+<h1>
+<a name="references" class="anchor" href="#references"><span class="octicon octicon-link"></span></a>References</h1>
 
-<ul>
-<li>managing the sensor platform and the experiment application was too distracting and confusing to the users. We prepared a dedicated laptop for the sensors and conducted experiment using isolated desktops in the co lab. This was also better ergonomically for the participants.
-# Visualization
-Initial plan was to build custom visualizations with D3 into the app. However, when we explored the data from early experiments visually using Tableau, we didn’t find any clear patterns. We decided to focus our time and effort doing visual analysis using Tableau instead of spending time on building custom visualization that might not show anything.
-We had to customize the database data dump to make it more suitable for visual analysis with Tableau.</li>
-</ul>
-</li>
-</ul>
-
-<p>Classification</p>
-
-<p>References
-[1] Lang, P.J., Bradley, M.M., &amp; Cuthbert, B.N. (2008). International affective picture system (IAPS): Affective ratings of pictures and instruction manual. Technical Report A-8. University of Florida, Gainesville, FL.</p>
+<p>[1] Lang, P.J., Bradley, M.M., &amp; Cuthbert, B.N. (2008). International affective picture system (IAPS): Affective ratings of pictures and instruction manual. Technical Report A-8. University of Florida, Gainesville, FL.</p>
 
 <p>[2] Bradley, M. M., &amp; Lang, P. J. (1999). International affective digitized sounds (IADS): Stimuli, instruction manual and affective ratings (Tech. Rep. No. B-2). Gainesville, FL: The Center for Research in Psychophysiology, University of Florida</p>
       </section>
