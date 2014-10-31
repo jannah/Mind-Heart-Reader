@@ -34,19 +34,20 @@
         <h1>
 <a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h1>
 
-<p><a href="https://docs.google.com/presentation/d/1ohAsXkaxJCsIqhM3qVlgfPRQyhnbTRSeQ-gO8mX2HN8/edit?usp=sharing"><img src="http://cdn2.ubergizmo.com/wp-content/uploads/2013/01/google-slides.jpg" width="200" alt="Project Presentation"></a></p>
+<p><a href="https://docs.google.com/presentation/d/1ohAsXkaxJCsIqhM3qVlgfPRQyhnbTRSeQ-gO8mX2HN8/edit?usp=sharing" target="”_blank”"><img src="http://cdn2.ubergizmo.com/wp-content/uploads/2013/01/google-slides.jpg" width="200" alt="Project Presentation"></a></p>
 
 <h2>
 <a name="project-goals-and-research-questions" class="anchor" href="#project-goals-and-research-questions"><span class="octicon octicon-link"></span></a>Project Goals and Research Questions</h2>
 
-<p>We used the IAPS[1] and IADS[2] dataset to compare the patterns in brain waves in response to visual and aural stimuli. The key question we had was whether users’ emotional response to a certain stimulus differs based on the medium of that stimulus (in this case images v/s. sounds). 
-We built a machine learning classifier which classifies the brainwaves and predicts emotional response for the user. Within each stimulus, we prompted the user for a response (like, neutral, dislike).  After several iterations, we train the classifier using bio-data inputs tagged with users responses. The classifier can then be used to predict a user’s response based on bio-data inputs.</p>
+<p>We used the IAPS[1] and IADS[2] dataset to compare the patterns in brain waves in response to visual and aural stimuli. The key question we had was whether users’ emotional response to a certain stimulus differs based on the medium of that stimulus (in this case images v/s. sounds). </p>
 
 <h2>
 <a name="potential-applications" class="anchor" href="#potential-applications"><span class="octicon octicon-link"></span></a>Potential Applications</h2>
 
-<p>Targeted Advertising: focus on showing images that can solicit the desired behavior from the user based on their history. The same goes for stimulus selection. If a user is known to respond better to sounds than images, then advertisments should have a strong sound element.
-Standardized Tests: By understanding users EEG patterns, standardized psychological and personality tests could be improved by reducing the likelihood of a user lying to fool the test.</p>
+<p>Targeted Advertising: focus on showing images that can solicit the desired behavior from the user based on their history. The same goes for stimulus selection. If a user is known to respond better to sounds than images, then advertisments should have a strong sound element. Sound or image can be emphasized or de-emphasized and the content can be made more adaptive to user’s responses without any direct feedback.
+Standardized Tests: By understanding users EEG patterns, standardized psychological and personality tests could be improved by reducing the likelihood of a user lying to fool the test.
+Education: If one type of stimulus is proven to be better than the other in eliciting certain types of responses (e.g attention, appreciation, etc.), classroom instruction methods can be redesigned or diversified to exploit these results for more effective teaching.
+Cinema/Filmmaking/Media: The results can better inform filmmakers about which elements of stimulus might be more effective in which contexts in cinematography. </p>
 
 <h2>
 <a name="interviews-and-ideation-plan" class="anchor" href="#interviews-and-ideation-plan"><span class="octicon octicon-link"></span></a>Interviews and Ideation Plan</h2>
@@ -60,7 +61,7 @@ We customized the interview methodology used in the IAPS and IADS studies which 
 <h2>
 <a name="dataset" class="anchor" href="#dataset"><span class="octicon octicon-link"></span></a>Dataset:</h2>
 
-<p>Thea IAPS and IADS  datasets are standardized and have been used in research extensively.  We aim to use subsets of each dataset that are equivalent to each other. The images and sounds used in each experiment will be selected carefully. We aim to use more extreme images along the emotional dimension the dataset has. Our plan is get image that are likely to illicit highly positive or highly negative emotion. Neutral images help control for both responses. This will , hopefully, reduce dimensionality of user responses and improve chances of predicting those responses.
+<p>The IAPS and IADS  datasets are standardized and have been used in research extensively.  We aim to use subsets of each dataset that are equivalent to each other. The images and sounds used in each experiment will be selected carefully. We aim to use more extreme images along the emotional dimension the dataset has. Our plan is get image that are likely to illicit highly positive or highly negative emotion. Neutral images help control for both responses. This will , hopefully, reduce dimensionality of user responses and improve chances of predicting those responses.
 We customized the interview methodology used in the IAPS and IADS studies which was a paper based version and asked users to rate the images and sound in a booklet. They closely follow the Self-assessment Manikin(SAM, Lang 1980) methodology. Parameters such as time the image/sound is provided to user are to be determined.
 Instead of using papers, we built a user interface which displays images and plays sounds for the subject to rate them in one of the three categories - Like, Dislike and Neutral.</p>
 
@@ -74,7 +75,7 @@ Instead of using papers, we built a user interface which displays images and pla
 <h2>
 <a name="software" class="anchor" href="#software"><span class="octicon octicon-link"></span></a>Software:</h2>
 
-<p><strong>Python/Web:</strong> We are using a python web app (with flask) to conduct the experiments, analyze the data, and visualize the conclusions. This architecture allows us to combine both UI elements with backend data processing. Also, because timing is critical, we need to ensure we time user responds accurately to synchronize them with data inputs from the sensors. Using python also allows us to use the mindwave sensor in real time if possible. We have extended the indra-client module to allows us (and anyone else) to run it in parallel with our application. one downside to this is that we won’t be able to use NeuroSky metrics which need to be post-calculated.</p>
+<p><strong>Python/Web:</strong> We are using a python web app (with flask) to conduct the experiments, analyze the data, and visualize the conclusions. This architecture allows us to combine both UI elements with backend data processing. Also, because timing is critical, we need to ensure we time user response accurately to synchronize them with data inputs from the sensors. Using python also allows us to use the mindwave sensor in real time if possible. We have extended the indra-client module to allows us (and anyone else) to run it in parallel with our application. One downside to this is that we won’t be able to use NeuroSky metrics which need to be post-calculated.</p>
 
 <p><strong>Scikit-Learn:</strong> Python library for machine learning</p>
 
@@ -82,8 +83,13 @@ Instead of using papers, we built a user interface which displays images and pla
 
 <p>**Tableau: ** Tableau for visual analysis of the data.</p>
 
-<p>User Testing and Prototype Iterations - Add any link to a prototype, add videos or pictures.
-Build the technical backend to conduct the experiment and capture user responses.
+<h1>
+<a name="implementation" class="anchor" href="#implementation"><span class="octicon octicon-link"></span></a>Implementation</h1>
+
+<h2>
+<a name="approach" class="anchor" href="#approach"><span class="octicon octicon-link"></span></a>Approach</h2>
+
+<p>Build the technical backend to conduct the experiment and capture user responses.
 Conduct several experiments informally within the I School friends and family network to capture bio data and responses
 Prepare bio data for analysis:
 calculate mindwave metrics and load them to the database
@@ -94,11 +100,10 @@ build the prediction classifier
 build information visualizations to simulate the experiment
 Conduct additional interviews with the full system to verify the findings</p>
 
-<h1>
-<a name="implementation" class="anchor" href="#implementation"><span class="octicon octicon-link"></span></a>Implementation</h1>
-
 <h2>
 <a name="image-selection" class="anchor" href="#image-selection"><span class="octicon octicon-link"></span></a>Image Selection:</h2>
+
+<p>IAPS and IADS datasets use three metrics - Pleasure, Arousal and Dominance which are based on the Self-Assessment Manikin (SAM) methodology. We used these three metrics to find the extreme images or sounds for the experiment. We sampled the files which were +/- 1.5 or 2 standard deviations away from mean. We manually looked at the files as well to ensure that the content is extreme. To pick up neutral stimuli, we sampled files around the sample.  We build scatter plots for the combination of pleasure, arousal and dominance to find the right set of files. We repeated this process for finding a set for males and females for each stimuli - image and sound. In all, 4 sets were created and used in experiments.</p>
 
 <h2>
 <a name="experiment-app" class="anchor" href="#experiment-app"><span class="octicon octicon-link"></span></a>Experiment App</h2>
@@ -113,7 +118,7 @@ We deployed the app on Amazon Web Services to allow all members access to it. Ho
 <h2>
 <a name="experiments" class="anchor" href="#experiments"><span class="octicon octicon-link"></span></a>Experiments</h2>
 
-<p>Conducted several 10 complete experiments
+<p>Conducted several (10 complete) experiments
 4 participants did both sound and image experiments
 Conduced several failed experiments:
 Sensors didn’t connect
@@ -131,11 +136,38 @@ We had to customize the database data dump to make it more suitable for visual a
 <h2>
 <a name="classification" class="anchor" href="#classification"><span class="octicon octicon-link"></span></a>Classification</h2>
 
+<p>For this experiment, the three classification labels are - Like, Dislike and Neutral. We chose the scikit implementation of  OneVsRestClassifier.  It internally creates classifiers for each label and fits them against all other classifiers.
+We used the features - Alpha, Beta, Gamma, Theta, Delta, Appreciation, Familiarity, Subject ID, Mental Effort and Meditation.
+The accuracy was about ~32-36% which is as good as guessing given we have three classes. We didn’t use the raw data from Neurosky but used the processed output(assuming it will be more useful) for our analysis.
+We looked at the .mat file generated alongwith the CSV files generated by mind wave, but we couldn’t interpret what the data columns mean and what signal is being measured. </p>
+
 <h1>
 <a name="evaluation" class="anchor" href="#evaluation"><span class="octicon octicon-link"></span></a>Evaluation</h1>
 
-<p>Final Portfolio Pieces / Pictures - To be added later.</p>
+<h2>
+<a name="analysys" class="anchor" href="#analysys"><span class="octicon octicon-link"></span></a>Analysys</h2>
 
+<h2>
+<a name="results" class="anchor" href="#results"><span class="octicon octicon-link"></span></a>Results</h2>
+
+<p><a href="https://docs.google.com/presentation/d/1ohAsXkaxJCsIqhM3qVlgfPRQyhnbTRSeQ-gO8mX2HN8/edit?usp=sharing" target="”_blank”"><img src="http://cdn2.ubergizmo.com/wp-content/uploads/2013/01/google-slides.jpg" width="200" alt="Project Presentation"></a></p>
+
+<h2>
+<a name="challenges" class="anchor" href="#challenges"><span class="octicon octicon-link"></span></a>Challenges</h2>
+
+<p>No HR sensor with reading/second
+Reliability of EEG sensor during experiments
+Understanding EEG signals
+Parsing raw EEG data from Matlab
+Isolating the effects of various confounding factors that can affect signal
+e.g. biases, surroundings, sensor position, signal quality, etc. </p>
+
+<h2>
+<a name="next-steps" class="anchor" href="#next-steps"><span class="octicon octicon-link"></span></a>Next Steps</h2>
+
+<p>Use EEG raw data to analyze and build power spectrums
+More experiments in better controlled environments 
+</p>
 
 <h1>
 <a name="references" class="anchor" href="#references"><span class="octicon octicon-link"></span></a>References</h1>
@@ -143,6 +175,10 @@ We had to customize the database data dump to make it more suitable for visual a
 <p>[1] Lang, P.J., Bradley, M.M., &amp; Cuthbert, B.N. (2008). International affective picture system (IAPS): Affective ratings of pictures and instruction manual. Technical Report A-8. University of Florida, Gainesville, FL.</p>
 
 <p>[2] Bradley, M. M., &amp; Lang, P. J. (1999). International affective digitized sounds (IADS): Stimuli, instruction manual and affective ratings (Tech. Rep. No. B-2). Gainesville, FL: The Center for Research in Psychophysiology, University of Florida</p>
+
+<p>[3] Tableau</p>
+
+<p>[4] Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.</p>
       </section>
     </div>
 
