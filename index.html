@@ -89,16 +89,18 @@ Instead of using papers, we built a user interface which displays images and pla
 <h2>
 <a name="approach" class="anchor" href="#approach"><span class="octicon octicon-link"></span></a>Approach</h2>
 
-<p>Build the technical backend to conduct the experiment and capture user responses.
-Conduct several experiments informally within the I School friends and family network to capture bio data and responses
-Prepare bio data for analysis:
-calculate mindwave metrics and load them to the database
-upload heart rate data to the database
-Analyze the different data streams to:
-compare stimulus responses for each user
-build the prediction classifier
-build information visualizations to simulate the experiment
-Conduct additional interviews with the full system to verify the findings</p>
+<ol>
+<li>Build the technical backend to conduct the experiment and capture user responses.</li>
+<li>Conduct several experiments informally within the I School friends and family network to capture bio data and responses</li>
+<li>Prepare bio data for analysis:
+a. calculate mindwave metrics and load them to the database
+b. upload heart rate data to the database</li>
+<li>Analyze the different data streams to:
+a. compare stimulus responses for each user
+b. build the prediction classifier
+c. build information visualizations to simulate the experiment</li>
+<li>Conduct additional interviews with the full system to verify the findings</li>
+</ol>
 
 <h2>
 <a name="image-selection" class="anchor" href="#image-selection"><span class="octicon octicon-link"></span></a>Image Selection:</h2>
@@ -108,44 +110,50 @@ Conduct additional interviews with the full system to verify the findings</p>
 <h2>
 <a name="experiment-app" class="anchor" href="#experiment-app"><span class="octicon octicon-link"></span></a>Experiment App</h2>
 
-<p>We built the Mind-Heart-Reader app and backend database to display and capture user images
-Process:
-Create user-&gt; create experiment with specific image/sound set -&gt; connect sensors -&gt; conduct -&gt; upload sensor data.
-Initially, we had a 20 second time window per file. We found that users were bored and anxious to proceed so we reduced it to 15 seconds but with 25 image. One hypothesis is that the data that matters is in the beginning of each window (i.e. the first impression).
-We had issues mapping the times of user responses with mindwave data because of different timezone settings so we had to fix that programmatically.
-We deployed the app on Amazon Web Services to allow all members access to it. However, the images/sounds were stored on a our secure iSchool server and accessed remotely from AWS.</p>
+<p>We built the Mind-Heart-Reader app and backend database to display and capture user images</p>
 
-<h2>
-<a name="experiments" class="anchor" href="#experiments"><span class="octicon octicon-link"></span></a>Experiments</h2>
+<ul>
+<li>Process:
 
-<p>Conducted several (10 complete) experiments
-4 participants did both sound and image experiments
-Conduced several failed experiments:
-Sensors didn’t connect
-NeuroSky platform didn’t start or crashed
-Unable to obtain good quality signal before or during the experiment
-Changed experiment setup to be on two machines instead of one:
-managing the sensor platform and the experiment application was too distracting and confusing to the users. We prepared a dedicated laptop for the sensors and conducted experiment using isolated desktops in the co lab. This was also better ergonomically for the participants.</p>
+<ul>
+<li>Create user-&gt; create experiment with specific image/sound set -&gt; connect sensors -&gt; conduct -&gt; upload sensor data.</li>
+</ul>
+</li>
+<li>Initially, we had a 20 second time window per file. We found that users were bored and anxious to proceed so we reduced it to 15 seconds but with 25 image. One hypothesis is that the data that matters is in the beginning of each window (i.e. the first impression).</li>
+<li>We had issues mapping the times of user responses with mindwave data because of different timezone settings so we had to fix that programmatically.</li>
+<li>We deployed the app on Amazon Web Services to allow all members access to it. However, the images/sounds were stored on a our secure iSchool server and accessed remotely from AWS.
+## Experiments</li>
+<li>Conducted several (10 complete) experiments
 
-<h2>
-<a name="visualization" class="anchor" href="#visualization"><span class="octicon octicon-link"></span></a>Visualization</h2>
+<ul>
+<li>4 participants did both sound and image experiments</li>
+</ul>
+</li>
+<li>Conducted several failed experiments:
 
-<p>Initial plan was to build custom visualizations with D3 into the app. However, when we explored the data from early experiments visually using Tableau, we didn’t find any clear patterns. We decided to focus our time and effort doing visual analysis using Tableau instead of spending time on building custom visualization that might not show anything.
-We had to customize the database data dump to make it more suitable for visual analysis with Tableau.</p>
-
-<h2>
-<a name="classification" class="anchor" href="#classification"><span class="octicon octicon-link"></span></a>Classification</h2>
-
-<p>For this experiment, the three classification labels are - Like, Dislike and Neutral. We chose the scikit implementation of <a href="http://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsRestClassifier.html"> OneVsRestClassifier</a>.  It internally creates classifiers for each label and fits them against all other classifiers.
-We used the features - Alpha, Beta, Gamma, Theta, Delta, Appreciation, Familiarity, Subject ID, Mental Effort and Meditation.
-The accuracy was about ~32-36% which is as good as guessing given we have three classes. We didn’t use the raw data from Neurosky but used the processed output(assuming it will be more useful) for our analysis.
-We looked at the .mat file generated alongwith the CSV files generated by mind wave, but we couldn’t interpret what the data columns mean and what signal is being measured. </p>
+<ul>
+<li>Sensors didn’t connect</li>
+<li>NeuroSky platform didn’t start or crashed</li>
+<li>Unable to obtain good quality signal before or during the experiment</li>
+</ul>
+</li>
+<li>Changed experiment setup to be on two machines instead of one:</li>
+<li>managing the sensor platform and the experiment application was too distracting and confusing to the users. We prepared a dedicated laptop for the sensors and conducted experiment using isolated desktops in the co lab. This was also better ergonomically for the participants.
+## Visualization</li>
+<li>Initial plan was to build custom visualizations with D3 into the app. However, when we explored the data from early experiments visually using Tableau, we didn’t find any clear patterns. We decided to focus our time and effort doing visual analysis using Tableau instead of spending time on building custom visualization that might not show anything.</li>
+<li>We had to customize the database data dump to make it more suitable for visual analysis with Tableau.
+## Classification</li>
+<li>For this experiment, the three classification labels are - Like, Dislike and Neutral. We chose the scikit implementation of  OneVsRestClassifier.  It internally creates classifiers for each label and fits them against all other classifiers.</li>
+<li>We used the features - Alpha, Beta, Gamma, Theta, Delta, Appreciation, Familiarity, Subject ID, Mental Effort and Meditation.</li>
+<li>The accuracy was about ~32-36% which is as good as guessing given we have three classes. We didn’t use the raw data from Neurosky but used the processed output(assuming it will be more useful) for our analysis.</li>
+<li>We looked at the .mat file generated alongwith the CSV files generated by mind wave, but we couldn’t interpret what the data columns mean and what signal is being measured. </li>
+</ul>
 
 <h1>
 <a name="evaluation" class="anchor" href="#evaluation"><span class="octicon octicon-link"></span></a>Evaluation</h1>
 
 <h2>
-<a name="analysys" class="anchor" href="#analysys"><span class="octicon octicon-link"></span></a>Analysys</h2>
+<a name="analysis" class="anchor" href="#analysis"><span class="octicon octicon-link"></span></a>Analysis</h2>
 
 <h2>
 <a name="results" class="anchor" href="#results"><span class="octicon octicon-link"></span></a>Results</h2>
